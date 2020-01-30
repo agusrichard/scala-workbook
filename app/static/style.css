@@ -1,0 +1,39 @@
+:root {
+	--primary-color: #321b96;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	font-family: 'Oxygen', Helvetica, sans-serif;
+	height: 100%;
+	width: 100%;
+}
+
+/* NAVBAR */
+
+nav {
+	width: 100%;
+}
+
+nav.navbar-text {
+	font-size: 1.1rem;
+}
+
+nav.bg-navbar {
+	background-color: var(--primary-color);
+}
+
+/* FOOTER */
+
+footer#footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	background: rgb(50, 27, 150);
+}
