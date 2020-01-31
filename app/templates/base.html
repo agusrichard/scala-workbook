@@ -50,7 +50,7 @@
 			      </li>
 			  	</ul>
 			  	<ul class="nav navbar-nav navbar-right">
-			  		<li class="nav-item"><a class="nav-link" href="#">Log In</a></li>
+			  		<li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
         		<li class="nav-item"><a class="nav-link" href="#">Register</a></li>
 			  	</ul>
 			  </div>
@@ -76,7 +76,9 @@
 
 		{% if not index_page %}
 		<footer id="footer">
-		  <small class="text-muted" id="footerText">Created by Agus Richard Lubis</small>
+			<div class="container">
+				<p>Created by Agus Richard Lubis</p>
+			</div>
 		</footer>
 		{% endif %}
     

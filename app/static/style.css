@@ -44,3 +44,16 @@ footer#footer {
 	height: 50px;
 	background: rgb(50, 27, 150);
 }
+
+footer div.container {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: auto;
+}
+
+footer div.container p {
+	color: #fff;
+	font-size: 0.9rem;
+	text-align: center;
+}
