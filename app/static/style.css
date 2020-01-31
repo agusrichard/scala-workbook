@@ -1,5 +1,5 @@
 :root {
-	--primary-color: #321b96;
+	--primary-color: #180d7a;
 }
 
 * {
@@ -26,6 +26,13 @@ nav.navbar-text {
 
 nav.bg-navbar {
 	background-color: var(--primary-color);
+}
+
+
+/* MAIN */
+
+main {
+	padding: 2rem 0;
 }
 
 /* FOOTER */
