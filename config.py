@@ -5,9 +5,10 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or "ea75882e2040f75b6dc7a1b55e3ba5af1b6c19561288fb36402510d3fcce6c2b"
-	MAIL_SERVER = 'smtp.googlemail.com'
-	MAIL_PORT = 587
-	MAIL_USE_LTS = True
+	MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
+	MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
+	MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in \
+	    ['true', 'on', '1']
 	MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
 	MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 	TALOS_MAIL_SUBJECT_PREFIX = '[Talos Social Blog]'
