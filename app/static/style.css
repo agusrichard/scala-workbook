@@ -20,12 +20,21 @@ nav {
 	width: 100%;
 }
 
-nav.navbar-text {
+.navbar-text {
 	font-size: 1.1rem;
 }
 
-nav.bg-navbar {
+.bg-navbar {
 	background-color: var(--primary-color);
+}
+
+a.dropdown-item {
+	color: #fff;
+}
+
+a.dropdown-item:hover {
+	background-color: #8e8e8e;
+	color: #fff;
 }
 
 

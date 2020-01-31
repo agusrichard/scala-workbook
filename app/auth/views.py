@@ -4,7 +4,7 @@ from . import auth
 from .. import db
 from ..models import User 
 from ..email import send_email
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, ChangePasswordForm
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -18,7 +18,7 @@ def login():
 			if next is None or not next.startswith('/'):
 				next = url_for('main.index')
 			return redirect(next)
-		flash('Invalid email or password.', 'danger')
+		flash('Invalid email or password.', 'warning')
 	return render_template('auth/login.html', title='Login', form=form)
 
 
@@ -68,3 +68,18 @@ def resend_confirmation():
 				'auth/email/confirm', user=current_user, token=token)
 	flash('A new confirmation email has been sent to you by email.', 'info')
 	return redirect(url_for('main.index'))
+
+
+@auth.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+	form = ChangePasswordForm()
+	if form.validate_on_submit():
+		if current_user.verify_password(form.old_password.data):
+			current_user.password = form.password.data
+			db.session.add(current_user)
+			db.session.commit()
+			flash('Your password has been updated', 'success')
+		else:
+			flash('Invalid password', 'warning')
+	return render_template('auth/change_password.html', title='Change Password', form=form)
