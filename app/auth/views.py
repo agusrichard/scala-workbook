@@ -1,7 +1,9 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from . import auth
+from .. import db
 from ..models import User 
+from ..email import send_email
 from .forms import LoginForm, RegistrationForm
 
 
@@ -9,7 +11,7 @@ from .forms import LoginForm, RegistrationForm
 def login():
 	form = LoginForm()
 	if form.validate_on_submit():
-		user = User.query.filter(email=form.email.data.lower()).first()
+		user = User.query.filter_by(email=form.email.data.lower()).first()
 		if user is not None and user.verify_password(form.password.data):
 			login_user(user, form.remember_me.data)
 			next = request.args.get('next')
@@ -40,3 +42,26 @@ def register():
 		flash('You can now login.', 'success')
 		return redirect(url_for('auth.login'))
 	return render_template('auth/register.html', title='Register', form=form)
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+	if current_user.confirmed:
+		return redirect(url_for('main.index'))
+	if current_user.confirm(token):
+		db.session.commit()
+		flash('You have confirmed your account. Thanks!', 'success')
+	else:
+		flash('The confirmation link is invalid or has expired.', 'warning')
+	return redirect(url_for('main.index'))
+
+
+@auth.route('/confirm')
+@login_required
+def resend_confirmation():
+	token = current_user.generate_confirmation_token()
+	send_email(current_user.email, 'Confirm Your Account', 
+				'auth/email/confirm', user=user, token=token)
+	flash('A new confirmation email has been sent to you by email.', 'info')
+	return redirect(url_for('main.index'))
