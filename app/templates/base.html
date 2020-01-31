@@ -19,69 +19,70 @@
 	<link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet"> 
 
 	{% if index_page %}
-	    <title>Welcome to Talos Social Blog</title>
-    {% else %}
-    	{% if title %}
-    		<title>Talos - {{ title }}</title>
-    	{% else %}
-    		<title>Talos Social Blog</title>
-    	{% endif %}
-    {% endif %}
+		<title>Welcome to Talos Social Blog</title>
+	{% else %}
+		{% if title %}
+			<title>Talos - {{ title }}</title>
+		{% else %}
+			<title>Talos Social Blog</title>
+		{% endif %}
+	{% endif %}
 </head>
 
   <body>
-  	<!-- Navigation Bar -->
-  	<nav class="navbar navbar-expand-md navbar-dark bg-navbar navbar-text">
+	<!-- Navigation Bar -->
+	<nav class="navbar navbar-expand-md navbar-dark bg-navbar navbar-text">
 		  <div class="container">
 				<a class="navbar-brand" href="#">
-		      <img src="{{ url_for('static', filename='icon.svg') }}" width="30" height="30" class="d-inline-block align-top" alt="Talos Brand">
-		      <span class="font-weight-bold">TALOS</span>
-		    </a>
-		    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-		      <span class="navbar-toggler-icon"></span>
-		  	</button>
+			  <img src="{{ url_for('static', filename='icon.svg') }}" width="30" height="30" class="d-inline-block align-top" alt="Talos Brand">
+			  <span class="font-weight-bold">TALOS</span>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			  <span class="navbar-toggler-icon"></span>
+			</button>
 			  <div class="collapse navbar-collapse" id="navbarNav">
-			  	<ul class="nav navbar-nav mr-auto">
-			  		<li class="nav-item active">
-			        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-			      </li>
-			      <li class="nav-item">
-			        <a class="nav-link" href="#">Profile</a>
-			      </li>
-			  	</ul>
-			  	<ul class="nav navbar-nav navbar-right">
-			  		{% if current_user.is_authenticated %}
-				  		<li class="nav-item dropdown">
-		            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-	                Account <b class="caret"></b>
-		            </a>
-		            <ul class="dropdown-menu bg-navbar">
-		                <li><a class="dropdown-item" href="{{ url_for('auth.change_password') }}">Change Password</a></li>
-		                <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a></li>
-		            </ul>
-			        </li>
-			  		{% else %}
-			  			<li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
-	        		<li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
-			  		{% endif %}
-			  	</ul>
+				<ul class="nav navbar-nav mr-auto">
+					<li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				  </li>
+				  <li class="nav-item">
+					<a class="nav-link" href="#">Profile</a>
+				  </li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated %}
+						<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+					Account <b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu bg-navbar">
+						<li><a class="dropdown-item" href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+						<li><a class="dropdown-item" href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
+						<li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Log Out</a></li>
+					</ul>
+					</li>
+					{% else %}
+						<li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Log In</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+					{% endif %}
+				</ul>
 			  </div>
 		  </div>
 		</nav>
 		
 		<main role="main">
 			<div class="container main-block">
-				{% with messages = get_flashed_messages(with_categories=true) %}
-	        {% if messages %}
-	          {% for category, message in messages %}
-	            <div class="alert alert-{{ category }}">
-	              <button type="button" class="close" data-dismiss="alert">&times;</button>
-	              {{ message }}
-	            </div>
-	          {% endfor %}
-	        {% endif %}
-	      {% endwith %}
-
+  			{% with messages = get_flashed_messages(with_categories=true) %}
+    			{% if messages %}
+    			  {% for category, message in messages %}
+    				<div class="alert alert-{{ category }}">
+    				  <button type="button" class="close" data-dismiss="alert">&times;</button>
+    				  {{ message }}
+    				</div>
+    			  {% endfor %}
+    			{% endif %}
+  		  {% endwith %}
+    
 				{% block content %}{% endblock %}
 			</div>
 		</main>
@@ -93,18 +94,18 @@
 			</div>
 		</footer>
 		{% endif %}
-    
+	
 
-    {% block scripts %}
+	{% block scripts %}
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 	{{ moment.include_moment() }}
 
-    {% endblock %}
+	{% endblock %}
   </body>
 </html>
