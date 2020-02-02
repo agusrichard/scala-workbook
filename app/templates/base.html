@@ -15,8 +15,9 @@
 	<link rel="shortcut icon" href="{{ url_for('static', filename='icon.svg') }}" type="image/x-icon">
 	<link rel="icon" href="{{ url_for('static', filename='icon.svg') }}" type="image/x-icon">
 
-	<!-- font -->
-	<link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet"> 
+	<!-- font and font-awesome -->
+	<link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/f982f02f80.js" crossorigin="anonymous"></script> 
 
 	{% if index_page %}
 		<title>Welcome to Talos Social Blog</title>
@@ -31,28 +32,32 @@
 
   <body>
 	<!-- Navigation Bar -->
-	<nav class="navbar navbar-expand-md navbar-dark bg-navbar navbar-text">
+	<nav class="navbar navbar-expand-md bg-navbar navbar-text">
 		  <div class="container">
-				<a class="navbar-brand" href="#">
+				<a class="navbar-brand" href="{{ url_for('main.index') }}">
 			  <img src="{{ url_for('static', filename='icon.svg') }}" width="30" height="30" class="d-inline-block align-top" alt="Talos Brand">
 			  <span class="font-weight-bold">TALOS</span>
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			  <span class="navbar-toggler-icon"></span>
+			  	<span class="navbar-toggler-icon">   
+				    <i class="fas fa-bars"></i>
+				</span>
 			</button>
 			  <div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="nav navbar-nav mr-auto">
-					<li class="nav-item active">
-					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					<li class="nav-item">
+					<a class="nav-link" href="{{ url_for('main.home') }}">Home</a>
 				  </li>
+				  {% if current_user.is_authenticated %}
 				  <li class="nav-item">
 					<a class="nav-link" href="{{ url_for('main.user', username=current_user.username) }}">Profile</a>
 				  </li>
+				  {% endif %}
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					{% if current_user.is_authenticated %}
 					<li class="nav-item dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 						<img src="{{ current_user.gravatar(size=18) }}">
 						Account <b class="caret"></b>
 					</a>

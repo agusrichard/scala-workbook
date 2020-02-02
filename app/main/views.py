@@ -1,7 +1,8 @@
-from flask import render_template, redirect, url_for, abort, flash
-from flask_login import login_required, current_user
+from flask import render_template, redirect, url_for, abort, flash, request
+from flask_login import login_required, current_user, login_user
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm
+from ..auth.forms import LoginForm
 from .. import db
 from ..models import Role, User
 from ..decorators import admin_required
@@ -9,7 +10,21 @@ from ..decorators import admin_required
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-	return render_template('index.html')
+	form = LoginForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(email=form.email.data.lower()).first()
+		if user is not None and user.verify_password(form.password.data):
+			login_user(user, form.remember_me.data)
+			next = request.args.get('next')
+			if next is None or not next.startswith('/'):
+				next = url_for('main.home')
+			return redirect(next)
+		flash('Invalid email or password', 'warning')
+	return render_template('index.html', index_page=True, form=form)
+
+@main.route('/home', methods=['GET', 'POST'])
+def home():
+	return render_template('main/home.html', title='Home')
 
 
 @main.route('/user/<username>')

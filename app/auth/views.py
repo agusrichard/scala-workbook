@@ -23,7 +23,7 @@ def login():
 			login_user(user, form.remember_me.data)
 			next = request.args.get('next')
 			if next is None or not next.startswith('/'):
-				next = url_for('main.index')
+				next = url_for('main.home')
 			return redirect(next)
 		flash('Invalid email or password.', 'warning')
 	return render_template('auth/login.html', title='Login', form=form)
@@ -58,13 +58,13 @@ def register():
 @login_required
 def confirm(token):
 	if current_user.confirmed:
-		return redirect(url_for('main.index'))
+		return redirect(url_for('main.home'))
 	if current_user.confirm(token):
 		db.session.commit()
 		flash('You have confirmed your account. Thanks!', 'success')
 	else:
 		flash('The confirmation link is invalid or has expired.', 'warning')
-	return redirect(url_for('main.index'))
+	return redirect(url_for('main.home'))
 
 
 @auth.route('/confirm')
@@ -74,7 +74,7 @@ def resend_confirmation():
 	send_email(current_user.email, 'Confirm Your Account', 
 				'auth/email/confirm', user=current_user, token=token)
 	flash('A new confirmation email has been sent to you by email.', 'info')
-	return redirect(url_for('main.index'))
+	return redirect(url_for('main.home'))
 
 
 @auth.route('/change-password', methods=['GET', 'POST'])
@@ -95,7 +95,7 @@ def change_password():
 @auth.route('/reset', methods=['GET', 'POST'])
 def password_reset_request():
 	if not current_user.is_anonymous:
-		return redirect(url_for('main.index'))
+		return redirect(url_for('main.home'))
 	form = PasswordResetRequestForm()
 	if form.validate_on_submit():
 		user = User.query.filter_by(email=form.email.data.lower()).first()
@@ -111,7 +111,7 @@ def password_reset_request():
 @auth.route('/reset/<token>', methods=['GET', 'POST'])
 def password_reset(token):
 	if not current_user.is_anonymous:
-		return redirect(url_for('main.index'))
+		return redirect(url_for('main.home'))
 	form = PasswordResetForm()
 	if form.validate_on_submit():
 		if User.reset_password(token, form.password.data):
@@ -119,7 +119,7 @@ def password_reset(token):
 			flash('Your password has been updated.', 'success')
 			return redirect(url_for('auth.login'))
 		else:
-			return redirect(url_for('main.index'))
+			return redirect(url_for('main.home'))
 	return render_template('auth/reset_password.html', title='Reset Password', form=form)
 
 
@@ -135,7 +135,7 @@ def change_email_request():
 						'auth/email/change_email', user=current_user, token=token)
 			flash('An email with instructions to confirm your new email '
 					'address has been sent to you.', 'info')
-			return redirect(url_for('main.index'))
+			return redirect(url_for('main.home'))
 		else:
 			flash('Invalid email or password', 'warning')
 	return render_template('auth/change_email.html', title='Change Email', form=form)
@@ -149,4 +149,4 @@ def change_email(token):
 		flash('Your email address has been updated.', 'success')
 	else:
 		flash('Invalid request.')
-	return redirect(url_for('main.index'))
+	return redirect(url_for('main.home'))
