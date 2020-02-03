@@ -3,7 +3,7 @@
 
 {% block content %}
 <div id="landingPageContent" class="row justify-content-between">
-	<div class="card col-md-6">
+	<div class="card special-card col-md-6">
 		<div class="card-header">
 		Greetings
 		</div>
@@ -12,7 +12,7 @@
 			<p class="card-text">This blog site is a learning project I made with flask and bootstrap.</p>
 		</div>
 	</div>
-	<div class="card col-md-5">
+	<div class="card special-card col-md-5">
 		<div class="card-header">
 		Login
 		</div>
@@ -37,7 +37,7 @@
 		  	</form>
 	  	</div>
 	  	<div class="border-top pt-3">
-				<small class="text-muted">
+				<small class="text-small">
 					Need An Account? <a class="ml-2" href="{{ url_for('auth.register') }}">Sign Up Now</a>
 				</small>
 			</div>

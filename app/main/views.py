@@ -1,10 +1,10 @@
 from flask import render_template, redirect, url_for, abort, flash, request
 from flask_login import login_required, current_user, login_user
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm
+from .forms import EditProfileForm, EditProfileAdminForm, PostForm
 from ..auth.forms import LoginForm
 from .. import db
-from ..models import Role, User
+from ..models import Permission, Role, User, Post
 from ..decorators import admin_required
 
 
@@ -24,7 +24,15 @@ def index():
 
 @main.route('/home', methods=['GET', 'POST'])
 def home():
-	return render_template('main/home.html', title='Home')
+	form = PostForm()
+	if current_user.can(Permission.WRITE) and form.validate_on_submit():
+		post = Post(body=form.body.data,
+					author=current_user._get_current_object())
+		db.session.add(post)
+		db.session.commit()
+		return redirect(url_for('main.home'))
+	posts = Post.query.order_by(Post.timestamp.desc()).all()
+	return render_template('main/home.html', form=form, posts=posts, title='Home')
 
 
 @main.route('/user/<username>')
