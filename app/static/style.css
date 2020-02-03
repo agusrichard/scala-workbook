@@ -101,12 +101,22 @@ div#landingPageContent div.card {
 	color: #000;
 }
 
+div.post-tabs {
+    margin-top: 16px;
+}
+
 ul.posts {
     list-style-type: none;
     padding: 0px;
     margin: 16px 0px 0px 0px;
     border-top: 1px solid #e0e0e0;
 }
+
+div.post-tabs ul.posts {
+    margin: 0px;
+    border-top: none;
+}
+
 ul.posts li.post {
     padding: 8px;
     border-bottom: 1px solid #e0e0e0;
@@ -161,6 +171,10 @@ div.flask-pagedown-preview h3 {
 
 div.post-footer {
     text-align: right;
+}
+
+.table.followers tr {
+    border-bottom: 1px solid #e0e0e0;
 }
 
 /* FOOTER */

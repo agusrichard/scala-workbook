@@ -1,11 +1,11 @@
-from flask import render_template, redirect, url_for, abort, flash, request, current_app
+from flask import render_template, redirect, url_for, abort, flash, request, current_app, make_response
 from flask_login import login_required, current_user, login_user
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, PostForm
 from ..auth.forms import LoginForm
 from .. import db
 from ..models import Permission, Role, User, Post
-from ..decorators import admin_required
+from ..decorators import admin_required, permission_required
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -33,11 +33,19 @@ def home():
 		db.session.commit()
 		return redirect(url_for('main.home'))
 	page = request.args.get('page', 1, type=int)
+	show_followed = False
+	if current_user.is_authenticated:
+		show_followed = bool(request.cookies.get('show_followed', ''))
+	if show_followed:
+		query = current_user.followed_posts
+	else:
+		query = Post.query
 	pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
 			page, per_page=current_app.config['TALOS_POSTS_PER_PAGE'],
 			error_out=False)
 	posts = pagination.items
-	return render_template('main/home.html', form=form, posts=posts, pagination=pagination, title='Home')
+	return render_template('main/home.html', form=form, posts=posts, pagination=pagination, 
+							title='Home', show_followed=show_followed)
 
 
 @main.route('/user/<username>')
@@ -48,7 +56,8 @@ def user(username):
 			page, per_page=current_app.config['TALOS_POSTS_PER_PAGE'],
 			error_out=False)
 	posts = pagination.items
-	return render_template('main/user.html', user=user, posts=posts, pagination=pagination, title=user.username)
+	return render_template('main/user.html', user=user, posts=posts, pagination=pagination, 
+							title=user.username)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
@@ -94,7 +103,8 @@ def edit_profile_admin(id):
 	form.name.data = user.name
 	form.location.data = user.location
 	form.about_me.data = user.about_me
-	return render_template('main/edit_profile_admin.html', title='Admin Edit Profile', user=user, form=form)
+	return render_template('main/edit_profile_admin.html', title='Admin Edit Profile', 
+							user=user, form=form)
 
 
 @main.route('/post/<int:id>')
@@ -119,3 +129,92 @@ def edit(id):
 		return redirect(url_for('main.user', username=post.author.username))
 	form.body.data = post.body
 	return render_template('main/edit_post.html', form=form, title='Edit Post')
+
+
+@main.route('/follow/<username>')
+@login_required
+@permission_required(Permission.FOLLOW)
+def follow(username):
+	user = User.query.filter_by(username=username).first()
+	if user is None:
+		flash('Invalid user.', 'warning')
+		return redirect(url_for('.home'))
+	if current_user.is_following(user):
+		flash('You are already following this user.', 'info')
+		return redirect(url_for('.user', username=username))
+	current_user.follow(user)
+	db.session.commit()
+	flash('You are now following %s' % username, 'success')
+	return redirect(url_for('.user', username=username))
+
+
+@main.route('/unfollow/<username>')
+@login_required
+@permission_required(Permission.FOLLOW)
+def unfollow(username):
+	user = User.query.filter_by(username=username).first()
+	if user is None:
+		flash('Invalid user.', 'warning')
+		return redirect(url_for('.home'))
+	if not current_user.is_following(user):
+		flash('You are not following this user.', 'info')
+		return redirect(url_for('.user', username=username))
+	current_user.unfollow(user)
+	db.session.commit()
+	flash('You are not following %s anymore' % username, 'success')
+	return redirect(url_for('.user', username=username))
+
+
+@main.route('/followers/<username>')
+def followers(username):
+	user = User.query.filter_by(username=username).first()
+	if user is None:
+		flash('Invalid user.')
+		return redirect(url_for('.home'))
+	page = request.args.get('page', 1, type=int)
+	pagination = user.followers.paginate(
+		page, per_page=current_app.config['TALOS_FOLLOWERS_PER_PAGE'],
+		error_out=False)
+	follows = [{'user': item.follower, 'timestamp': item.timestamp}
+				for item in pagination.items]
+	return render_template('main/followers.html', user=user, title="Followers", 
+							head_title='Followers of ',
+							endpoint='.followers', pagination=pagination,
+							follows=follows)
+
+
+@main.route('/followed-by/<username>')
+def followed_by(username):
+	user = User.query.filter_by(username=username).first()
+	if user is None:
+		flash('Invalid user.')
+		return redirect(url_for('.home'))
+	page = request.args.get('page', 1, type=int)
+	pagination = user.followed.paginate(
+		page, per_page=current_app.config['TALOS_FOLLOWERS_PER_PAGE'],
+		error_out=False)
+	follows = [{'user': item.followed, 'timestamp': item.timestamp}
+				for item in pagination.items]
+	return render_template('main/followers.html', user=user, title="Followed", 
+							head_title='Followers of ',
+							endpoint='.followed_by', pagination=pagination,
+							follows=follows)
+
+
+@main.route('/all')
+@login_required
+def show_all():
+	resp = make_response(redirect(url_for('.index')))
+	resp.set_cookie('show_followed', '', max_age=30*24*60*60)
+	return resp
+
+
+@main.route('/followed')
+@login_required
+def show_followed():
+	resp = make_response(redirect(url_for('.index')))
+	resp.set_cookie('show_followed', '1', max_age=30*24*60*60)
+	return resp
+
+
+

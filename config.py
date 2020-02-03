@@ -16,6 +16,7 @@ class Config:
 	TALOS_ADMIN = os.environ.get('TALOS_ADMIN')
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	TALOS_POSTS_PER_PAGE = 20
+	TALOS_FOLLOWERS_PER_PAGE = 50
 
 	@staticmethod
 	def init_app(app):
