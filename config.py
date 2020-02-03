@@ -15,6 +15,7 @@ class Config:
 	TALOS_MAIL_SENDER = 'Talos Social Blog Admin <flasksocialblog.admin@example.com>'
 	TALOS_ADMIN = os.environ.get('TALOS_ADMIN')
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
+	TALOS_POSTS_PER_PAGE = 20
 
 	@staticmethod
 	def init_app(app):
