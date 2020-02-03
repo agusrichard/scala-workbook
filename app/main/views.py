@@ -22,6 +22,7 @@ def index():
 		flash('Invalid email or password', 'warning')
 	return render_template('index.html', index_page=True, form=form)
 
+
 @main.route('/home', methods=['GET', 'POST'])
 def home():
 	form = PostForm()
@@ -94,3 +95,27 @@ def edit_profile_admin(id):
 	form.location.data = user.location
 	form.about_me.data = user.about_me
 	return render_template('main/edit_profile_admin.html', title='Admin Edit Profile', user=user, form=form)
+
+
+@main.route('/post/<int:id>')
+def post(id):
+	post = Post.query.get_or_404(id)
+	return render_template('main/post.html', posts=[post], title="Post {}".format(id))
+
+
+@main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+	post = Post.query.get_or_404(id)
+	if current_user != post.author and \
+			not current_user.can(Permission.ADMIN):
+		abort(403)
+	form = PostForm()
+	if form.validate_on_submit():
+		post.body = form.body.data
+		db.session.add(post)
+		db.session.commit()
+		flash('The post has been updated.', 'success')
+		return redirect(url_for('main.user', username=post.author.username))
+	form.body.data = post.body
+	return render_template('main/edit_post.html', form=form, title='Edit Post')
