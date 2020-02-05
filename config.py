@@ -17,6 +17,7 @@ class Config:
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	TALOS_POSTS_PER_PAGE = 20
 	TALOS_FOLLOWERS_PER_PAGE = 50
+	TALOS_COMMENTS_PER_PAGE = 30
 
 	@staticmethod
 	def init_app(app):
