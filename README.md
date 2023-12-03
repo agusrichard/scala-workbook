@@ -1,3 +1,3 @@
-# Flask-Social-Blog
+# Scala Workbook
 
-Social Blog using Flask and Bootstrap
+All things about Scala
