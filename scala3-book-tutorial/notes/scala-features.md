@@ -47,3 +47,16 @@ Source: https://docs.scala-lang.org/scala3/book/scala-features.html
     def speak(): Unit = println("Woof")
     def wagTail(): Unit = println("⎞⎜⎛  ⎞⎜⎛")
   ```
+
+- Studies have shown that the time a developer spends reading code to writing code is at least a 10:1 ratio, so writing code that is concise and readable is important.
+- A dynamic feel: Scala is a statically-typed language, but thanks to its type inference capabilities it feels dynamic.
+  ```scala
+  val s = "Hello"
+  val p = Person("Al", "Pacino")
+  val sum = nums.reduceLeft(_ + _)
+  val y = for i <- nums yield i * 2
+  val z = nums
+    .filter(_ > 100)
+    .filter(_ < 10_000)
+    .map(_ * 2)
+  ```
