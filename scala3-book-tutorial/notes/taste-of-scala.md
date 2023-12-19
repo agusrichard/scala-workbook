@@ -3,3 +3,8 @@
 Source: https://docs.scala-lang.org/scala3/book/taste-intro.html
 
 ### Your First Scala Program
+
+- Snippet:
+  ```scala
+  @main def hello() = println("Hello World")
+  ```
