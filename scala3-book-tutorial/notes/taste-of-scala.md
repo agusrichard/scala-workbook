@@ -8,6 +8,28 @@ Source: https://docs.scala-lang.org/scala3/book/taste-intro.html
   ```scala
   @main def hello() = println("Hello World")
   ```
-  ```scala
-  @main def say_love() = println("I Love you!")
+- In this code, hello is a method. It’s defined with def, and declared to be a “main” method with the @main annotation. It prints the "Hello, World!" string to standard output (STDOUT) using the println method.
+- Next, compile the code with scalac:
+  ```shell
+  $ scalac hello.scala
   ```
+
+### Ask For User Input
+
+- There are several ways to read input from a command-line, but a simple way is to use the readLine method in the scala.io.StdIn object.
+- Snippet:
+
+  ```scala
+  import scala.io.StdIn.readLine
+
+  @main def helloInteractive() =
+      println("Please enter your name: ")
+      val name = readLine()
+
+      println("Hello, " + name + "!")
+
+  ```
+
+### THE REPL
+
+- You start a REPL session by running the scala or scala3 command depending on your installation at your operating system command line, where you’ll see a “welcome” prompt like this: `$ scala`
