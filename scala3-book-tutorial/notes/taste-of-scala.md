@@ -33,3 +33,5 @@ Source: https://docs.scala-lang.org/scala3/book/taste-intro.html
 ### THE REPL
 
 - You start a REPL session by running the scala or scala3 command depending on your installation at your operating system command line, where you’ll see a “welcome” prompt like this: `$ scala`
+
+A new year yuhuu
