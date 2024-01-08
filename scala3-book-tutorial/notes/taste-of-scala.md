@@ -38,8 +38,6 @@ A new year yuhuu
 Now I'm fully certified
 Good things always
 Don't know
-<<<<<<< HEAD
 again
-=======
 Back to work again man!
->>>>>>> cd1667a (ready to work again)
+Just kidding, today's holiday
