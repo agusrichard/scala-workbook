@@ -42,4 +42,8 @@ again
 Back to work again man!
 Just kidding, today's holiday
 Let's start to work again
+<<<<<<< HEAD
 Going back home
+=======
+Now, I'm seriously ready to work. Let's start by making plans
+>>>>>>> a99fded (making plans)
