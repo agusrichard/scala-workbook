@@ -284,3 +284,116 @@ do
     println(x)
     x += 1
   ```
+
+### OOP Domain Modeling
+
+- When writing code in an OOP style, your two main tools for data encapsulation are traits and classes.
+- Scala traits can be used as simple interfaces, but they can also contain abstract and concrete methods and fields, and they can have parameters, just like classes.
+- As an example of how to use traits as interfaces, here are three traits that define well-organized and modular behaviors for animals like dogs and cats:
+
+  ```scala
+  trait Speaker:
+    def speak(): String  // has no body, so it’s abstract
+
+  trait TailWagger:
+    def startTail(): Unit = println("tail is wagging")
+    def stopTail(): Unit = println("tail is stopped")
+
+  trait Runner:
+    def startRunning(): Unit = println("I’m running")
+    def stopRunning(): Unit = println("Stopped running")
+  ```
+
+- Given those traits, here’s a Dog class that extends all of those traits while providing a behavior for the abstract speak method:
+  ```scala
+  class Dog(name: String) extends Speaker, TailWagger, Runner:
+    def speak(): String = "Woof!"
+  ```
+- Similarly, here’s a Cat class that implements those same traits while also overriding two of the concrete methods it inherits:
+  ```scala
+  class Cat(name: String) extends Speaker, TailWagger, Runner:
+    def speak(): String = "Meow"
+    override def startRunning(): Unit = println("Yeah ... I don’t run")
+    override def stopRunning(): Unit = println("No need to stop")
+  ```
+- Scala classes are used in OOP-style programming. Here’s an example of a class that models a “person.” In OOP fields are typically mutable, so firstName and lastName are both declared as var parameters:
+
+  ```scala
+  class Person(var firstName: String, var lastName: String):
+    def printFullName() = println(s"$firstName $lastName")
+
+  val p = Person("John", "Stephens")
+  println(p.firstName)   // "John"
+  p.lastName = "Legend"
+  p.printFullName()      // "John Legend"
+  ```
+
+- Notice that the class declaration creates a constructor:
+
+```scala
+val p = Person("John", "Stephens")
+```
+
+### FP Domain Modeling
+
+- When writing code in an FP style, you’ll use these concepts:
+  - Algebraic Data Types to define the data
+  - Traits for functionality on the data.
+- For instance, a pizza has three main attributes:
+
+  - Crust size
+  - Crust type
+  - Toppings
+
+  ```scala
+  enum CrustSize:
+    case Small, Medium, Large
+
+  enum CrustType:
+    case Thin, Thick, Regular
+
+  enum Topping:
+    case Cheese, Pepperoni, BlackOlives, GreenOlives, Onions
+  ```
+
+- Usage:
+
+  ```scala
+  import CrustSize.*
+  val currentCrustSize = Small
+
+  // enums in a `match` expression
+  currentCrustSize match
+    case Small => println("Small crust size")
+    case Medium => println("Medium crust size")
+    case Large => println("Large crust size")
+
+  // enums in an `if` statement
+  if currentCrustSize == Small then println("Small crust size")
+  ```
+
+- A product type is an algebraic data type (ADT) that only has one shape, for example a singleton object, represented in Scala by a case object; or an immutable structure with accessible fields, represented by a case class.
+- This code demonstrates several case class features:
+
+  ```scala
+  // define a case class
+  case class Person(
+    name: String,
+    vocation: String
+  )
+
+  // create an instance of the case class
+  val p = Person("Reginald Kenneth Dwight", "Singer")
+
+  // a good default toString method
+  p                // : Person = Person(Reginald Kenneth Dwight,Singer)
+
+  // can access its fields, which are immutable
+  p.name           // "Reginald Kenneth Dwight"
+  p.name = "Joe"   // error: can’t reassign a val field
+
+  // when you need to make a change, use the `copy` method
+  // to “update as you copy”
+  val p2 = p.copy(name = "Elton John")
+  p2               // : Person = Person(Elton John,Singer)
+  ```

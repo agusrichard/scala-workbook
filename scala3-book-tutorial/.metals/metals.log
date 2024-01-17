@@ -1,0 +1,150 @@
+2024.01.17 21:29:14 INFO  Started: Metals version 1.2.0 in folders '/Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial' for client Visual Studio Code 1.85.1.
+2024.01.17 21:29:16 WARN  Build server is not auto-connectable.
+2024.01.17 21:29:16 WARN  no build tool detected in workspace '/Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2024.01.17 21:29:16 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+2024.01.17 21:29:16 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/controlStructures.scala
+2024.01.17 21:29:29 INFO  no build target found for /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/controlStructures.scala. Using presentation compiler with project's scala-library version: 3.3.1
+2024.01.17 21:29:34 INFO  time: code lens generation in 10s
+2024.01.17 21:29:34 INFO  time: code lens generation in 18s
+Jan 17, 2024 9:29:39 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 26
+2024.01.17 21:29:39 INFO  time: code lens generation in 2.34s
+2024.01.17 21:29:40 INFO  time: code lens generation in 1.19s
+2024.01.17 21:29:41 INFO  time: code lens generation in 1.07s
+2024.01.17 21:29:46 INFO  time: code lens generation in 4.14s
+2024.01.17 21:29:46 INFO  time: code lens generation in 3.13s
+2024.01.17 21:29:46 INFO  time: code lens generation in 2.33s
+2024.01.17 21:29:46 INFO  time: code lens generation in 1.73s
+Downloading https://repo1.maven.org/maven2/org/scalameta/scalafmt-core_2.13/3.7.15/scalafmt-core_2.13-3.7.15.pom
+Downloaded https://repo1.maven.org/maven2/org/scalameta/scalafmt-core_2.13/3.7.15/scalafmt-core_2.13-3.7.15.pom
+Downloading https://repo1.maven.org/maven2/org/scalameta/scalafmt-sysops_2.13/3.7.15/scalafmt-sysops_2.13-3.7.15.pom
+Downloading https://repo1.maven.org/maven2/org/scalameta/scalameta_2.13/4.8.12/scalameta_2.13-4.8.12.pom
+Downloading https://repo1.maven.org/maven2/org/scalameta/scalafmt-config_2.13/3.7.15/scalafmt-config_2.13-3.7.15.pom
+Downloaded https://repo1.maven.org/maven2/org/scalameta/scalafmt-sysops_2.13/3.7.15/scalafmt-sysops_2.13-3.7.15.pom
+Downloaded https://repo1.maven.org/maven2/org/scalameta/scalafmt-config_2.13/3.7.15/scalafmt-config_2.13-3.7.15.pom
+Downloaded https://repo1.maven.org/maven2/org/scalameta/scalameta_2.13/4.8.12/scalameta_2.13-4.8.12.pom
+Downloading https://repo1.maven.org/maven2/org/scalameta/parsers_2.13/4.8.12/parsers_2.13-4.8.12.pom
+Downloaded https://repo1.maven.org/maven2/org/scalameta/parsers_2.13/4.8.12/parsers_2.13-4.8.12.pom
+Downloading https://repo1.maven.org/maven2/com/typesafe/config/1.4.1/config-1.4.1.pom
+Downloading https://repo1.maven.org/maven2/org/scalameta/trees_2.13/4.8.12/trees_2.13-4.8.12.pom
+Downloaded https://repo1.maven.org/maven2/org/scalameta/trees_2.13/4.8.12/trees_2.13-4.8.12.pom
+Downloaded https://repo1.maven.org/maven2/com/typesafe/config/1.4.1/config-1.4.1.pom
+Downloading https://repo1.maven.org/maven2/org/scalameta/common_2.13/4.8.12/common_2.13-4.8.12.pom
+Downloaded https://repo1.maven.org/maven2/org/scalameta/common_2.13/4.8.12/common_2.13-4.8.12.pom
+Downloading https://repo1.maven.org/maven2/org/scalameta/scalameta_2.13/4.8.12/scalameta_2.13-4.8.12.jar
+Downloading https://repo1.maven.org/maven2/org/scalameta/scalafmt-sysops_2.13/3.7.15/scalafmt-sysops_2.13-3.7.15.jar
+Downloading https://repo1.maven.org/maven2/org/scalameta/common_2.13/4.8.12/common_2.13-4.8.12.jar
+Downloading https://repo1.maven.org/maven2/com/typesafe/config/1.4.1/config-1.4.1.jar
+Downloading https://repo1.maven.org/maven2/org/scalameta/trees_2.13/4.8.12/trees_2.13-4.8.12.jar
+Downloading https://repo1.maven.org/maven2/org/scalameta/scalafmt-config_2.13/3.7.15/scalafmt-config_2.13-3.7.15.jar
+Downloaded https://repo1.maven.org/maven2/org/scalameta/scalafmt-sysops_2.13/3.7.15/scalafmt-sysops_2.13-3.7.15.jar
+Downloading https://repo1.maven.org/maven2/org/scalameta/parsers_2.13/4.8.12/parsers_2.13-4.8.12.jar
+Downloaded https://repo1.maven.org/maven2/org/scalameta/scalafmt-config_2.13/3.7.15/scalafmt-config_2.13-3.7.15.jar
+Downloading https://repo1.maven.org/maven2/org/scalameta/scalafmt-core_2.13/3.7.15/scalafmt-core_2.13-3.7.15.jar
+Downloaded https://repo1.maven.org/maven2/org/scalameta/scalameta_2.13/4.8.12/scalameta_2.13-4.8.12.jar
+Downloaded https://repo1.maven.org/maven2/org/scalameta/parsers_2.13/4.8.12/parsers_2.13-4.8.12.jar
+Downloaded https://repo1.maven.org/maven2/com/typesafe/config/1.4.1/config-1.4.1.jar
+Downloaded https://repo1.maven.org/maven2/org/scalameta/common_2.13/4.8.12/common_2.13-4.8.12.jar
+Downloaded https://repo1.maven.org/maven2/org/scalameta/scalafmt-core_2.13/3.7.15/scalafmt-core_2.13-3.7.15.jar
+2024.01.17 21:30:10 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+Downloaded https://repo1.maven.org/maven2/org/scalameta/trees_2.13/4.8.12/trees_2.13-4.8.12.jar
+2024.01.17 21:30:13 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:30:26 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:30:26 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+2024.01.17 21:30:41 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:30:41 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+2024.01.17 21:30:43 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:30:43 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+2024.01.17 21:31:04 INFO  time: code lens generation in 1.29s
+Jan 17, 2024 9:31:04 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 257
+2024.01.17 21:31:05 INFO  time: code lens generation in 1.36s
+2024.01.17 21:31:15 ERROR Failed to tokenize input for semantic tokens for /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+scala.meta.tokenizers.TokenizeException: <input>:10: error: unclosed string interpolation
+    def stopRunning(): Unit = println"()
+                                      ^
+	at scala.meta.internal.tokenizers.Reporter.syntaxError(Reporter.scala:23)
+	at scala.meta.internal.tokenizers.Reporter.syntaxError$(Reporter.scala:23)
+	at scala.meta.internal.tokenizers.Reporter$$anon$1.syntaxError(Reporter.scala:33)
+	at scala.meta.internal.tokenizers.Reporter.syntaxError(Reporter.scala:25)
+	at scala.meta.internal.tokenizers.Reporter.syntaxError$(Reporter.scala:25)
+	at scala.meta.internal.tokenizers.Reporter$$anon$1.syntaxError(Reporter.scala:33)
+	at scala.meta.internal.tokenizers.LegacyScanner.getStringPart(LegacyScanner.scala:659)
+	at scala.meta.internal.tokenizers.LegacyScanner.fetchDoubleQuote$1(LegacyScanner.scala:357)
+	at scala.meta.internal.tokenizers.LegacyScanner.fetchToken(LegacyScanner.scala:376)
+	at scala.meta.internal.tokenizers.LegacyScanner.nextToken(LegacyScanner.scala:211)
+	at scala.meta.internal.tokenizers.LegacyScanner.foreach(LegacyScanner.scala:1011)
+	at scala.meta.internal.tokenizers.ScalametaTokenizer.uncachedTokenize(ScalametaTokenizer.scala:24)
+	at scala.meta.internal.tokenizers.ScalametaTokenizer.$anonfun$tokenize$1(ScalametaTokenizer.scala:17)
+	at scala.collection.concurrent.TrieMap.getOrElseUpdate(TrieMap.scala:962)
+	at scala.meta.internal.tokenizers.ScalametaTokenizer.tokenize(ScalametaTokenizer.scala:17)
+	at scala.meta.internal.tokenizers.ScalametaTokenizer$$anon$2.apply(ScalametaTokenizer.scala:332)
+	at scala.meta.tokenizers.Api$XtensionTokenizeDialectInput.tokenize(Api.scala:25)
+	at scala.meta.tokenizers.Api$XtensionTokenizeInputLike.tokenize(Api.scala:14)
+	at scala.meta.internal.metals.SemanticTokensProvider$.getTokens(SemanticTokensProvider.scala:28)
+	at scala.meta.internal.metals.SemanticTokensProvider$.provide(SemanticTokensProvider.scala:89)
+	at scala.meta.internal.metals.Compilers.$anonfun$semanticTokens$3(Compilers.scala:541)
+	at scala.concurrent.impl.Promise$Transformation.run(Promise.scala:467)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.lang.Thread.run(Thread.java:829)
+
+2024.01.17 21:31:20 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:31:20 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+Jan 17, 2024 9:31:32 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 451
+Exception in thread "pool-3-thread-1" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:230)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2024.01.17 21:31:44 INFO  time: code lens generation in 1.89s
+2024.01.17 21:32:00 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:32:00 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+2024.01.17 21:32:03 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:32:03 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+Jan 17, 2024 9:32:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 839
+Jan 17, 2024 9:32:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 840
+Jan 17, 2024 9:32:40 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 842
+Jan 17, 2024 9:33:04 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1054
+2024.01.17 21:33:05 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:33:05 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+Jan 17, 2024 9:33:05 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1068
+Exception in thread "pool-3-thread-2" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.onCompilerJobQueue$$anonfun$1(CompilerAccess.scala:230)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2024.01.17 21:33:42 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:33:42 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
+2024.01.17 21:36:08 ERROR scalafmt: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala:1: error: [dialect scala213] ; expected but : found
+trait Speak:
+           ^
+2024.01.17 21:36:08 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/oopDomainModeling.scala
