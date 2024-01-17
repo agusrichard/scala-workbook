@@ -124,3 +124,163 @@ Source: https://docs.scala-lang.org/scala3/book/taste-intro.html
   val x = -1
   println(s"x.abs = ${x.abs}")   // prints "x.abs = 1"
   ```
+
+### if/else
+
+- Snippet:
+  ```scala
+  if x < 0 then
+    println("negative")
+  else if x == 0 then
+    println("zero")
+  else
+    println("positive")
+  ```
+- Short version:
+  ```scala
+  val x = if a < b then a else b
+  ```
+
+### for loops and expressions
+
+- Snippet:
+
+  ```scala
+  val ints = List(1, 2, 3, 4, 5)
+
+  for i <- ints do println(i)
+  ```
+
+- Guards:
+
+```scala
+for
+  i <- ints
+  if i > 2
+do
+  println(i)
+
+for
+  i <- 1 to 3
+  j <- 'a' to 'c'
+  if i == 2
+  if j == 'b'
+do
+  println(s"i = $i, j = $j")   // prints: "i = 2, j = b"
+```
+
+### for expressions
+
+- The for keyword has even more power: When you use the yield keyword instead of do, you create for expressions which are used to calculate and yield results.
+  ```scala
+  scala> val doubles = for i <- ints yield i * 2
+  val doubles: List[Int] = List(2, 4, 6, 8, 10)
+  ```
+- Scala’s control structure syntax is flexible, and that for expression can be written in several other ways, depending on your preference:
+
+  ```scala
+  val doubles = for i <- ints yield i * 2     // style shown above
+  val doubles = for (i <- ints) yield i * 2
+  val doubles = for (i <- ints) yield (i * 2)
+  val doubles = for { i <- ints } yield (i * 2)
+  ```
+
+- Snippet:
+
+  ```scala
+  val names = List("chris", "ed", "maurice")
+  val capNames = for name <- names yield name.capitalize
+
+  val fruits = List("apple", "banana", "lime", "orange")
+
+  val fruitLengths = for
+    f <- fruits
+    if f.length > 4
+  yield
+    // you can use multiple lines
+    // of code here
+    f.length
+
+  // fruitLengths: List[Int] = List(5, 6, 6)
+  ```
+
+### match expressions
+
+- Scala has a match expression, which in its most basic use is like a Java switch statement:
+
+  ```scala
+  val i = 1
+
+  // later in the code ...
+  i match
+    case 1 => println("one")
+    case 2 => println("two")
+    case _ => println("other")
+  ```
+
+- However, match really is an expression, meaning that it returns a result based on the pattern match, which you can bind to a variable:
+  ```scala
+  val result = i match
+    case 1 => "one"
+    case 2 => "two"
+    case _ => "other"
+  ```
+- match isn’t limited to working with just integer values, it can be used with any data type:
+
+  ```scala
+  val p = Person("Fred")
+
+  // later in the code
+  p match
+    case Person(name) if name == "Fred" =>
+      println(s"$name says, Yubba dubba doo")
+
+    case Person(name) if name == "Bam Bam" =>
+      println(s"$name says, Bam bam!")
+
+    case _ => println("Watch the Flintstones!")
+  ```
+
+- More types:
+
+  ```scala
+  // getClassAsString is a method that takes a single argument of any type.
+  def getClassAsString(x: Matchable): String = x match
+    case s: String => s"'$s' is a String"
+    case i: Int => "Int"
+    case d: Double => "Double"
+    case l: List[?] => "List"
+    case _ => "Unknown"
+
+  // examples
+  getClassAsString(1)               // Int
+  getClassAsString("hello")         // 'hello' is a String
+  getClassAsString(List(1, 2, 3))   // List
+  ```
+
+### try/catch/finally
+
+- Scala’s try/catch/finally control structure lets you catch exceptions. It’s similar to Java, but its syntax is consistent with match expressions:
+  ```scala
+  try
+    writeTextToFile(text)
+  catch
+    case ioe: IOException => println("Got an IOException.")
+    case nfe: NumberFormatException => println("Got a NumberFormatException.")
+  finally
+    println("Clean up your resources here.")
+  ```
+
+### while loops
+
+- Snippet:
+
+  ```scala
+  var x = 1
+
+  while
+    x < 3
+  do
+    println(x)
+    x += 1
+  ```
