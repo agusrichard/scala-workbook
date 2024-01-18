@@ -5,3 +5,4 @@
 - [Scala Features](./notes/scala-features.md)
 - [Why Scala 3](./notes/why-scala-3.md)
 - [Taste of Scala](./notes/taste-of-scala.md)
+- Next
