@@ -248,3 +248,85 @@ WARNING: Unmatched cancel notification for request id 2519
 2024.01.19 22:15:26 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/fpDomainModeling.scala
 2024.01.19 22:15:38 INFO  no build target found for /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/fpDomainModeling.scala. Using presentation compiler with project's scala-library version: 3.3.1
 2024.01.19 22:15:42 INFO  time: code lens generation in 15s
+2024.01.19 22:34:34 INFO  Shutting down server
+2024.01.19 22:34:34 INFO  shutting down Metals
+2024.01.19 22:34:34 INFO  Exiting server
+2024.01.19 22:35:00 INFO  Started: Metals version 1.2.0 in folders '/Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial' for client Visual Studio Code 1.85.1.
+2024.01.19 22:35:02 WARN  Build server is not auto-connectable.
+2024.01.19 22:35:02 WARN  no build tool detected in workspace '/Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. 
+2024.01.19 22:35:02 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/hello.scala
+2024.01.19 22:35:11 INFO  no build target found for /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/hello.scala. Using presentation compiler with project's scala-library version: 3.3.1
+2024.01.19 22:35:14 INFO  time: code lens generation in 12s
+2024.01.19 22:35:17 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:35:17 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:35:18 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:35:23 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:35:28 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:35:31 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:35:32 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+Jan 19, 2024 10:36:13 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 28
+2024.01.19 22:36:13 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+Jan 19, 2024 10:36:24 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 52
+2024.01.19 22:36:30 INFO  time: code lens generation in 2.49s
+2024.01.19 22:36:32 INFO  time: code lens generation in 2.31s
+2024.01.19 22:36:32 INFO  time: code lens generation in 1.16s
+2024.01.19 22:36:32 INFO  time: code lens generation in 3.45s
+Jan 19, 2024 10:36:52 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 179
+2024.01.19 22:37:10 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:37:13 WARN  Could not find semantic tokens for: file:///Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+Jan 19, 2024 10:37:15 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 236
+Jan 19, 2024 10:37:16 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 248
+Jan 19, 2024 10:37:31 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 301
+Jan 19, 2024 10:37:35 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 327
+2024.01.19 22:37:40 INFO  time: code lens generation in 1.11s
+2024.01.19 22:37:50 INFO  time: code lens generation in 1.25s
+2024.01.19 22:38:02 INFO  time: code lens generation in 2.47s
+2024.01.19 22:38:02 INFO  time: code lens generation in 1.97s
+2024.01.19 22:38:06 INFO  time: code lens generation in 3.09s
+Jan 19, 2024 10:38:12 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 471
+2024.01.19 22:38:14 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:38:39 INFO  time: code lens generation in 1.55s
+2024.01.19 22:38:39 INFO  time: code lens generation in 1.24s
+2024.01.19 22:38:46 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:39:24 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:39:41 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:39:59 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:39:59 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:41:05 INFO  time: code lens generation in 1.17s
+Jan 19, 2024 10:41:17 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 973
+2024.01.19 22:41:29 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+Jan 19, 2024 10:41:33 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1061
+2024.01.19 22:41:44 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:41:54 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:41:57 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:42:01 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:42:09 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:42:30 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:42:32 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:42:34 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:42:40 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:42:44 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:42:45 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:43:23 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:44:04 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:44:05 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:44:06 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:44:10 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:44:34 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:44:36 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:44:58 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:45:04 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+Jan 19, 2024 10:45:06 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1508
+2024.01.19 22:45:20 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
+2024.01.19 22:46:18 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/methods.scala
