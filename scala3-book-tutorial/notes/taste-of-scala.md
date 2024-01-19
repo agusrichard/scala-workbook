@@ -397,3 +397,142 @@ val p = Person("John", "Stephens")
   val p2 = p.copy(name = "Elton John")
   p2               // : Person = Person(Elton John,Singer)
   ```
+
+### Scala methods
+
+- Scala classes, case classes, traits, enums, and objects can all contain methods. The syntax of a simple method looks like this::
+  ```scala
+  def methodName(param1: Type1, param2: Type2): ReturnType =
+    // the method body
+    // goes here
+  ```
+- Examples:
+
+  ```scala
+  def sum(a: Int, b: Int): Int = a + b
+  def concatenate(s1: String, s2: String): String = s1 + s2
+
+  def sum(a: Int, b: Int) = a + b
+  def concatenate(s1: String, s2: String) = s1 + s2
+
+  val x = sum(1, 2)
+  val y = concatenate("foo", "bar")
+
+  def getStackTraceAsString(t: Throwable): String =
+  val sw = new StringWriter
+  t.printStackTrace(new PrintWriter(sw))
+  sw.toString
+
+  def makeConnection(url: String, timeout: Int = 5000): Unit =
+  println(s"url=$url, timeout=$timeout")
+
+  makeConnection("https://localhost")         // url=http://localhost, timeout=5000
+  makeConnection("https://localhost", 2500)   // url=http://localhost, timeout=2500
+
+  makeConnection(
+    url = "https://localhost",
+    timeout = 2500
+  )
+  ```
+
+- The extension keyword declares that you’re about to define one or more extension methods on the parameter that’s put in parentheses. As shown with this example, the parameter s of type String can then be used in the body of your extension methods.
+- This next example shows how to add a makeInt method to the String class. Here, makeInt takes a parameter named radix. The code doesn’t account for possible string-to-integer conversion errors, but skipping that detail, the examples show how it works:
+
+  ```scala
+  extension (s: String)
+    def makeInt(radix: Int): Int = Integer.parseInt(s, radix)
+
+  "1".makeInt(2)      // Int = 1
+  "10".makeInt(2)     // Int = 2
+  "100".makeInt(2)    // Int = 4
+  ```
+
+### FIRST-CLASS FUNCTIONS
+
+- Scala has most features you’d expect in a functional programming language, including:
+  - Lambdas (anonymous functions)
+  - Higher-order functions (HOFs)
+  - Immutable collections in the standard library
+- These two examples are equivalent, and show how to multiply each number in a list by 2 by passing a lambda into the map method:
+  ```scala
+  val a = List(1, 2, 3).map(i => i * 2)   // List(2,4,6)
+  val b = List(1, 2, 3).map(_ * 2)        // List(2,4,6)
+  ```
+- Those examples are also equivalent to the following code, which uses a double method instead of a lambda:
+
+  ```scala
+  def double(i: Int): Int = i * 2
+
+  val a = List(1, 2, 3).map(i => double(i))   // List(2,4,6)
+  val b = List(1, 2, 3).map(double)           // List(2,4,6)
+  ```
+
+- When you work with immutable collections like List, Vector, and the immutable Map and Set classes, it’s important to know that these functions don’t mutate the collection they’re called on; instead, they return a new collection with the updated data. As a result, it’s also common to chain them together in a “fluent” style to solve problems.
+- For instance, this example shows how to filter a collection twice, and then multiply each element in the remaining collection:
+
+  ```scala
+  // a sample list
+  val nums = (1 to 10).toList   // List(1,2,3,4,5,6,7,8,9,10)
+
+  // methods can be chained together as needed
+  val x = nums.filter(_ > 3)
+              .filter(_ < 7)
+              .map(_ * 10)
+
+  // result: x == List(40, 50, 60)
+  ```
+
+### SINGLETON OBJECTS
+
+- In Scala, the object keyword creates a Singleton object. Put another way, an object defines a class that has exactly one instance.
+- Objects have several uses:
+  - They are used to create collections of utility methods.
+  - A companion object is an object that has the same name as the class it shares a file with. In this situation, that class is also called a companion class.
+  - They’re used to implement traits to create modules.
+- Because an object is a Singleton, its methods can be accessed like static methods in a Java class. For example, this StringUtils object contains a small collection of string-related methods:
+
+  ```scala
+  object StringUtils:
+    def isNullOrEmpty(s: String): Boolean = s == null || s.trim.isEmpty
+    def leftTrim(s: String): String = s.replaceAll("^\\s+", "")
+    def rightTrim(s: String): String = s.replaceAll("\\s+$", "")
+
+  val x = StringUtils.isNullOrEmpty("")    // true
+  val x = StringUtils.isNullOrEmpty("a")   // false
+  ```
+
+- A companion class or object can access the private members of its companion. Use a companion object for methods and values which aren’t specific to instances of the companion class.
+- This example demonstrates how the area method in the companion class can access the private calculateArea method in its companion object:
+
+  ```scala
+  import scala.math.*
+
+  class Circle(radius: Double):
+    import Circle.*
+    def area: Double = calculateArea(radius)
+
+  object Circle:
+    private def calculateArea(radius: Double): Double =
+      Pi * pow(radius, 2.0)
+
+  val circle1 = Circle(5.0)
+  circle1.area   // Double = 78.53981633974483
+  ```
+
+- Objects can also be used to implement traits to create modules. This technique takes two traits and combines them to create a concrete object:
+
+  ```scala
+  trait AddService:
+    def add(a: Int, b: Int) = a + b
+
+  trait MultiplyService:
+    def multiply(a: Int, b: Int) = a * b
+
+  // implement those traits as a concrete object
+  object MathService extends AddService, MultiplyService
+
+  // use the object
+  import MathService.*
+  println(add(1,1))        // 2
+  println(multiply(2,2))   // 4
+  ```
