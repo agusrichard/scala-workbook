@@ -536,3 +536,146 @@ val p = Person("John", "Stephens")
   println(add(1,1))        // 2
   println(multiply(2,2))   // 4
   ```
+
+### Creating lists
+
+- To give you a taste of how these work, here are some examples that use the List class, which is an immutable, linked-list class. These examples show different ways to create a populated List:
+
+  ```scala
+  val a = List(1, 2, 3)           // a: List[Int] = List(1, 2, 3)
+
+  // Range methods
+  val b = (1 to 5).toList         // b: List[Int] = List(1, 2, 3, 4, 5)
+  val c = (1 to 10 by 2).toList   // c: List[Int] = List(1, 3, 5, 7, 9)
+  val e = (1 until 5).toList      // e: List[Int] = List(1, 2, 3, 4)
+  val f = List.range(1, 5)        // f: List[Int] = List(1, 2, 3, 4)
+  val g = List.range(1, 10, 3)    // g: List[Int] = List(1, 4, 7)
+  ```
+
+### List methods
+
+- Once you have a populated list, the following examples show some of the methods you can call on it. Notice that these are all functional methods, meaning that they don’t mutate the collection they’re called on, but instead return a new collection with the updated elements. The result that’s returned by each expression is shown in the comment on each line:
+
+  ```scala
+  // a sample list
+  val a = List(10, 20, 30, 40, 10)      // List(10, 20, 30, 40, 10)
+
+  a.drop(2)                             // List(30, 40, 10)
+  a.dropWhile(_ < 25)                   // List(30, 40, 10)
+  a.filter(_ < 25)                      // List(10, 20, 10)
+  a.slice(2,4)                          // List(30, 40)
+  a.tail                                // List(20, 30, 40, 10)
+  a.take(3)                             // List(10, 20, 30)
+  a.takeWhile(_ < 30)                   // List(10, 20)
+
+  // flatten
+  val a = List(List(1,2), List(3,4))
+  a.flatten                             // List(1, 2, 3, 4)
+
+  // map, flatMap
+  val nums = List("one", "two")
+  nums.map(_.toUpperCase)               // List("ONE", "TWO")
+  nums.flatMap(_.toUpperCase)           // List('O', 'N', 'E', 'T', 'W', 'O')
+  ```
+
+- These examples show how the “foldLeft” and “reduceLeft” methods are used to sum the values in a sequence of integers:
+
+  ```scala
+  val firstTen = (1 to 10).toList            // List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+  firstTen.reduceLeft(_ + _)                 // 55
+  firstTen.foldLeft(100)(_ + _)              // 155 (100 is a “seed” value)
+  ```
+
+### Tuples
+
+- Example:
+
+```scala
+case class Person(name: String)
+val t = (11, "eleven", Person("Eleven"))
+t(0)   // 11
+t(1)   // "eleven"
+t(2)   // Person("Eleven")
+
+val (num, str, person) = t
+
+// result:
+// val num: Int = 11
+// val str: String = eleven
+// val person: Person = Person(Eleven)
+```
+
+### CONTEXTUAL ABSTRACTIONS
+
+- Under certain circumstances, you can omit some parameters of method calls that are considered repetitive. Those parameters are called Context Parameters because they are inferred by the compiler from the context surrounding the method call.
+- For instance, consider a program that sorts a list of addresses by two criteria: the city name and then street name.
+
+  ```scala
+  val addresses: List[Address] = ...
+
+  addresses.sortBy(address => (address.city, address.street))
+  ```
+
+- The sortBy method takes a function that returns, for every address, the value to compare it with the other addresses. In this case, we pass a function that returns a pair containing the city name and the street name.
+- Note that we only indicate what to compare, but not how to perform the comparison. How does the sorting algorithm know how to compare pairs of String?
+- Actually, the sortBy method takes a second parameter—a context parameter—that is inferred by the compiler. It does not appear in the above example because it is supplied by the compiler.
+- This second parameter implements the how to compare. It is convenient to omit it because we know Strings are generally compared using the lexicographic order. However, it is also possible to pass it explicitly:
+
+  ```scala
+  addresses.sortBy(address => (address.city, address.street))(using Ordering.Tuple2(Ordering.String, Ordering.String))
+  ```
+
+- in Scala 3 using in an argument list to sortBy signals passing the context parameter explicitly, avoiding ambiguity.
+- In this case, the Ordering.Tuple2(Ordering.String, Ordering.String) instance is exactly the one that is otherwise inferred by the compiler. In other words both examples produce the same program.
+- Contextual Abstractions are used to avoid repetition of code. They help developers write pieces of code that are extensible and concise at the same time.
+
+### TOPLEVEL DEFINITIONS
+
+- In Scala 3, all kinds of definitions can be written at the “top level” of your source code files. For instance, you can create a file named MyCoolApp.scala and put these contents into it:
+
+  ```scala
+  import scala.collection.mutable.ArrayBuffer
+
+  enum Topping:
+    case Cheese, Pepperoni, Mushrooms
+
+  import Topping.*
+  class Pizza:
+    val toppings = ArrayBuffer[Topping]()
+
+  val p = Pizza()
+
+  extension (s: String)
+    def capitalizeAllWords = s.split(" ").map(_.capitalize).mkString(" ")
+
+  val hwUpper = "hello, world".capitalizeAllWords
+
+  type Money = BigDecimal
+
+  // more definitions here as desired ...
+
+  @main def myApp =
+    p.toppings += Cheese
+    println("show me the code".capitalizeAllWords)
+  ```
+
+### Replaces package objects
+
+- When you place a definition in a package named foo, you can then access that definition under all other packages under foo, such as within the foo.bar package in this example:
+
+  ```scala
+  package foo {
+    def double(i: Int) = i * 2
+  }
+
+  package foo {
+    package bar {
+      @main def fooBarMain =
+        println(s"${double(1)}")   // this works
+    }
+  }
+  ```
+
+- Curly braces are used in this example to put an emphasis on the package nesting.
+- The benefit of this approach is that you can place definitions under a package named com.acme.myapp, and then those definitions can be referenced within com.acme.myapp.model, com.acme.myapp.controller, etc.
