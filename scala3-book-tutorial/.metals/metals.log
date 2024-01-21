@@ -336,3 +336,6 @@ WARNING: Unmatched cancel notification for request id 1508
 2024.01.20 21:19:14 WARN  no build target for: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/MyCoolApp.scala
 2024.01.20 21:19:24 INFO  no build target found for /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/code/MyCoolApp.scala. Using presentation compiler with project's scala-library version: 3.3.1
 2024.01.20 21:19:29 INFO  time: code lens generation in 14s
+2024.01.20 21:42:30 INFO  Shutting down server
+2024.01.20 21:42:30 INFO  shutting down Metals
+2024.01.20 21:42:30 INFO  Exiting server
