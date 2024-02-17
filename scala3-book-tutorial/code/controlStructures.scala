@@ -20,6 +20,12 @@ import scala.io.StdIn.readLine
     for i <- ints do
         println(i)
 
+    var counter = 0
+    while counter < 10
+    do 
+        println(counter)
+        counter += 1
+
     for
         i <- 1 to 3
         j <- 'a' to 'c'
