@@ -53,7 +53,12 @@ object ControlStructuresDetail {
       case 1 => println("One is a good one")
       case y if y == 2 || x == 3 => println("2 and 3 are here")
       case _ => println("Another thing")
-    
+
+    val tup = (1, 2, 3, 4, 5)
+    tup match
+      case (_, b, _, _, _) if b == 2 => println("B is two")
+      case (a, _, _, _, e) if a == 1 || e == 5 => println("One or Five")
+      case _ => println("other")
   }
 
   def compare(a: Int, b: Int): Int =
