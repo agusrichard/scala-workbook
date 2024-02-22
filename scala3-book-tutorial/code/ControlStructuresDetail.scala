@@ -59,6 +59,7 @@ object ControlStructuresDetail {
       case (_, b, _, _, _) if b == 2 => println("B is two")
       case (a, _, _, _, e) if a == 1 || e == 5 => println("One or Five")
       case _ => println("other")
+      
   }
 
   def compare(a: Int, b: Int): Int =
