@@ -14,3 +14,4 @@ Dufan is fun
 Going back to Pemalang
 Again
 Trying to get back again
+Keep learning
