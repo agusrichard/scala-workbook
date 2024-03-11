@@ -4,6 +4,8 @@
 
 - https://docs.scala-lang.org/scala3/book/domain-modeling-intro.html
 - https://docs.scala-lang.org/scala3/book/domain-modeling-tools.html
+- https://docs.scala-lang.org/scala3/book/domain-modeling-oop.html
+- https://docs.scala-lang.org/scala3/book/domain-modeling-fp.html
 
 ## Tools
 
