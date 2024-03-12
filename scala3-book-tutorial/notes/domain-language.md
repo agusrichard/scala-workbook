@@ -112,3 +112,34 @@
   val s2 = Student("Mary", "123", LocalDate.now)
   val s3 = Student("Mary", "123", 456)
   ```
+
+### Objects
+
+- An object is a class that has exactly one instance. It’s initialized lazily when its members are referenced, similar to a lazy val.
+- Objects in Scala allow grouping methods and fields under one namespace, similar to how you use static members on a class in Java, Javascript (ES6), or @staticmethod in Python.
+- Declaring an object is similar to declaring a class. Here’s an example of a “string utilities” object that contains a set of methods for working with strings:
+
+  ```scala
+  object StringUtils:
+    def truncate(s: String, length: Int): String = s.take(length)
+    def containsWhitespace(s: String): Boolean = s.matches(".*\\s.*")
+    def isNullOrEmpty(s: String): Boolean = s == null || s.trim.isEmpty
+
+  StringUtils.truncate("Chuck Bartowski", 5)  // "Chuck"
+
+  import StringUtils.*
+  truncate("Chuck Bartowski", 5)       // "Chuck"
+  containsWhitespace("Sarah Walker")   // true
+  isNullOrEmpty("John Casey")          // false
+
+  import StringUtils.{truncate, containsWhitespace}
+  truncate("Charles Carmichael", 7)       // "Charles"
+  containsWhitespace("Captain Awesome")   // true
+  isNullOrEmpty("Morgan Grimes")          // Not found: isNullOrEmpty (error)
+
+  object MathConstants:
+    val PI = 3.14159
+    val E = 2.71828
+
+  println(MathConstants.PI)   // 3.14159
+  ```
