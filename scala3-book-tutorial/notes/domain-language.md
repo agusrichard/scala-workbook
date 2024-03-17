@@ -398,3 +398,5 @@
     case DecreaseVolume(amount) => changeVolume(-amount)
     case StopPlaying            => stopPlayingSong()
   ```
+
+## OOP Modeling
