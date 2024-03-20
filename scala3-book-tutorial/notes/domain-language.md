@@ -400,3 +400,5 @@
   ```
 
 ## OOP Modeling
+
+## FP Modeling
