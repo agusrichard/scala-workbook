@@ -401,4 +401,101 @@
 
 ## OOP Modeling
 
-## FP Modeling
+### Introduction
+
+Scala provides all the necessary tools for object-oriented design:
+
+- Traits let you specify (abstract) interfaces, as well as concrete implementations.
+- Mixin Composition gives you the tools to compose components from smaller parts.
+- Classes can implement the interfaces specified by traits.
+- Instances of classes can have their own private state.
+- Subtyping lets you use an instance of one class where an instance of a superclass is expected.
+- Access modifiers lets you control which members of a class can be accessed by which part of the code.
+
+### Traits
+
+- They can serve to describe abstract interfaces like:
+
+  ```scala
+  trait Showable:
+    def show: String
+
+  trait Showable:
+    def show: String
+    def showHtml = "<p>" + show + "</p>"
+  ```
+
+- Odersky and Zenger present the service-oriented component model and view:
+  - abstract members as required services: they still need to be implemented by a subclass.
+  - concrete members as provided services: they are provided to the subclass.
+- We can already see this with our example of Showable: defining a class Document that extends Showable, we still have to define show, but are provided with showHtml:
+  ```scala
+  class Document(text: String) extends Showable:
+    def show = text
+  ```
+- Abstract methods are not the only thing that can be left abstract in a trait. A trait can contain:
+  - abstract methods (def m(): T)
+  - abstract value definitions (val x: T)
+  - abstract type members (type T), potentially with bounds (type T <: S)
+  - abstract givens (given t: T) SCALA 3 ONLY
+
+### Mixin Composition
+
+- Scala also provides a powerful way to compose multiple traits: a feature which is often referred to as mixin composition.
+- Let us assume the following two (potentially independently defined) traits:
+
+  ```scala
+  trait GreetingService:
+    def translate(text: String): String
+    def sayHello = translate("Hello")
+
+  trait TranslationService:
+    def translate(text: String): String = "..."
+  ```
+
+- To compose the two services, we can simply create a new trait extending them:
+  ```scala
+  trait ComposedService extends GreetingService, TranslationService
+  ```
+- Abstract members in one trait (such as translate in GreetingService) are automatically matched with concrete members in another trait. This not only works with methods as in this example, but also with all the other abstract members mentioned above (that is, types, value definitions, etc.).
+
+### Classes
+
+- Traits are great to modularize components and describe interfaces (required and provided). But at some point we’ll want to create instances of them. When designing software in Scala, it’s often helpful to only consider using classes at the leafs of your inheritance model:
+  | Traits | T1, T2, T3 |
+  |-----------------|----------------------|
+  | Composed traits| S1 extends T1, T2, S2 extends T2, T3 |
+  | Classes | C extends S1, T3 |
+  | Instances | C() |
+- This is even more the case in Scala 3, where traits now can also take parameters, further eliminating the need for classes.
+
+- Like traits, classes can extend multiple traits (but only one super class):
+  ```scala
+  class MyService(name: String) extends ComposedService, Showable:
+  def show = s"$name says $sayHello"
+  ```
+- We can create an instance of MyService as follows:
+  ```scala
+  val s1: MyService = MyService("Service 1")
+  ```
+- Through the means of subtyping, our instance s1 can be used everywhere that any of the extended traits is expected:
+  ```scala
+  val s2: GreetingService = s1
+  val s3: TranslationService = s1
+  val s4: Showable = s1
+  // ... and so on ...
+  ```
+- As mentioned before, it is possible to extend another class:
+  ```scala
+  class Person(name: String)
+  class SoftwareDeveloper(name: String, favoriteLang: String)
+    extends Person(name)
+  ```
+
+#### Open Classes SCALA 3 ONLY
+
+- In Scala 3 extending non-abstract classes in other files is restricted. In order to allow this, the base class needs to be marked as open:
+  ```scala
+  open class Person(name: String)
+  ```
+- Marking classes with open is a new feature of Scala 3. Having to explicitly mark classes as open avoids many common pitfalls in OO design. In particular, it requires library designers to explicitly plan for extension and for instance document the classes that are marked as open with additional extension contracts.
