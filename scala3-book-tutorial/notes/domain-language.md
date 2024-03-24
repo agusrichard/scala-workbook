@@ -610,3 +610,298 @@ Scala provides all the necessary tools for object-oriented design:
   // sensor1 has value 2.0
   // sensor2 has value 3.0
   ```
+
+## FP Modeling
+
+### Introduction
+
+- In FP, the data and the operations on that data are two separate things; you aren’t forced to encapsulate them together like you do with OOP.
+- The concept is similar to numerical algebra. When you think about whole numbers whose values are greater than or equal to zero, you have a set of possible values that looks like this:
+  ```text
+  0, 1, 2 ... Int.MaxValue
+  ```
+- Ignoring the division of whole numbers, the possible operations on those values are:
+  ```text
+  +, -, *
+  ```
+- In FP, business domains are modeled in a similar way:
+  - You describe your set of values (your data)
+  - You describe operations that work on those values (your functions)
+- As we will see, reasoning about programs in this style is quite different from the object-oriented programming. Data in FP simply is: Separating functionality from your data lets you inspect your data without having to worry about behavior.
+
+### Modeling the Data
+
+- In Scala, describing the data model of a programming problem is simple:
+  - If you want to model data with different alternatives, use the enum construct, (or case object in Scala 2).
+  - If you only want to group things (or need more fine-grained control) use case classes
+
+#### Describing Alternatives
+
+- Data that simply consists of different alternatives, like crust size, crust type, and toppings, is precisely modelled in Scala by an enumeration.
+
+  ```scala
+  enum CrustSize:
+    case Small, Medium, Large
+
+  enum CrustType:
+    case Thin, Thick, Regular
+
+  enum Topping:
+    case Cheese, Pepperoni, BlackOlives, GreenOlives, Onions
+  ```
+
+#### Describing Compound Data
+
+- A pizza can be thought of as a compound container of the different attributes above. We can use a case class to describe that a Pizza consists of a crustSize, crustType, and potentially multiple toppings:
+
+  ```scala
+  import CrustSize.*
+  import CrustType.*
+  import Topping.*
+
+  case class Pizza(
+    crustSize: CrustSize,
+    crustType: CrustType,
+    toppings: Seq[Topping]
+  )
+  ```
+
+- And that’s it. That’s the data model for an FP-style pizza system. This solution is very concise because it doesn’t require the operations on a pizza to be combined with the data model.
+- The data model is easy to read, like declaring the design for a relational database. It is also very easy to create values of our data model and inspect them:
+  ```scala
+  val myFavPizza = Pizza(Small, Regular, Seq(Cheese, Pepperoni))
+  println(myFavPizza.crustType) // prints Regular
+  ```
+
+#### More of the data model
+
+- We might go on in the same way to model the entire pizza-ordering system. Here are a few other case classes that are used to model such a system:
+
+  ```scala
+  case class Address(
+    street1: String,
+    street2: Option[String],
+    city: String,
+    state: String,
+    zipCode: String
+  )
+
+  case class Customer(
+    name: String,
+    phone: String,
+    address: Address
+  )
+
+  case class Order(
+    pizzas: Seq[Pizza],
+    customer: Customer
+  )
+  ```
+
+- In his book, Functional and Reactive Domain Modeling, Debasish Ghosh states that where OOP practitioners describe their classes as “rich domain models” that encapsulate data and behaviors, FP data models can be thought of as “skinny domain objects.” This is because—as this lesson shows—the data models are defined as case classes with attributes, but no behaviors, resulting in short and concise data structures.
+
+### Modeling the Operations
+
+- For instance, we can define a function that computes the price of a pizza.
+  ```scala
+  def pizzaPrice(p: Pizza): Double = p match
+    case Pizza(crustSize, crustType, toppings) =>
+      val base  = 6.00
+      val crust = crustPrice(crustSize, crustType)
+      val tops  = toppings.map(toppingPrice).sum
+      base + crust + tops
+  ```
+- You can notice how the implementation of the function simply follows the shape of the data: since Pizza is a case class, we use pattern matching to extract the components and call helper functions to compute the individual prices.
+  ```scala
+  def toppingPrice(t: Topping): Double = t match
+    case Cheese | Onions => 0.5
+    case Pepperoni | BlackOlives | GreenOlives => 0.75
+  ```
+- Similarly, since Topping is an enumeration, we use pattern matching to distinguish between the different variants. Cheese and onions are priced at 50ct while the rest is priced at 75ct each.
+  ```scala
+  def crustPrice(s: CrustSize, t: CrustType): Double =
+    (s, t) match
+      // if the crust size is small or medium,
+      // the type is not important
+      case (Small | Medium, _) => 0.25
+      case (Large, Thin) => 0.50
+      case (Large, Regular) => 0.75
+      case (Large, Thick) => 1.00
+  ```
+- An important point about all functions shown above is that they are pure functions: they do not mutate any data or have other side-effects (like throwing exceptions or writing to a file). All they do is simply receive values and compute the result.
+
+### How to Organize Functionality
+
+- There are several different ways to implement and organize behaviors:
+  - Define your functions in companion objects
+  - Use a modular programming style
+  - Use a “functional objects” approach
+  - Define the functionality in extension methods
+
+#### Companion Object
+
+- A companion object is an object that has the same name as a class, and is declared in the same file as the class.
+- With this approach, in addition to the enumeration or case class you also define an equally named companion object that contains the behavior.
+
+  ```scala
+  case class Pizza(
+    crustSize: CrustSize,
+    crustType: CrustType,
+    toppings: Seq[Topping]
+  )
+
+  // the companion object of case class Pizza
+  object Pizza:
+    // the implementation of `pizzaPrice` from above
+    def price(p: Pizza): Double = ...
+
+  enum Topping:
+    case Cheese, Pepperoni, BlackOlives, GreenOlives, Onions
+
+  // the companion object of enumeration Topping
+  object Topping:
+    // the implementation of `toppingPrice` above
+    def price(t: Topping): Double = ...
+
+  val pizza1 = Pizza(Small, Thin, Seq(Cheese, Onions))
+  Pizza.price(pizza1)
+  ```
+
+- Grouping functionality this way has a few advantages:
+  - It associates functionality with data and makes it easier to find for programmers (and the compiler).
+  - It creates a namespace and for instance lets us use price as a method name without having to rely on overloading.
+  - The implementation of Topping.price can access enumeration values like Cheese without having to import them.
+- However, there are also a few tradeoffs that should be considered:
+  - It tightly couples the functionality to your data model. In particular, the companion object needs to be defined in the same file as your case class.
+  - It might be unclear where to define functions like crustPrice that could equally well be placed in a companion object of CrustSize or CrustType.
+
+### Modules
+
+- A second way to organize behavior is to use a “modular” approach. The book, Programming in Scala, defines a module as, “a ‘smaller program piece’ with a well-defined interface and a hidden implementation.” Let’s look at what this means.
+
+#### Creating a PizzaService interface
+
+- The first thing to think about are the Pizzas “behaviors”. When doing this, you sketch a PizzaServiceInterface trait like this:
+
+  ```scala
+  trait PizzaServiceInterface:
+
+    def price(p: Pizza): Double
+
+    def addTopping(p: Pizza, t: Topping): Pizza
+    def removeAllToppings(p: Pizza): Pizza
+
+    def updateCrustSize(p: Pizza, cs: CrustSize): Pizza
+    def updateCrustType(p: Pizza, ct: CrustType): Pizza
+  ```
+
+- When you write a pure interface like this, you can think of it as a contract that states, “all non-abstract classes that extend this trait must provide an implementation of these services.”
+
+#### Creating a concrete implementation
+
+- Now that you know what the PizzaServiceInterface looks like, you can create a concrete implementation of it by writing the body for all of the methods you defined in the interface:
+
+  ```scala
+  object PizzaService extends PizzaServiceInterface:
+
+    def price(p: Pizza): Double =
+      ... // implementation from above
+
+    def addTopping(p: Pizza, t: Topping): Pizza =
+      p.copy(toppings = p.toppings :+ t)
+
+    def removeAllToppings(p: Pizza): Pizza =
+      p.copy(toppings = Seq.empty)
+
+    def updateCrustSize(p: Pizza, cs: CrustSize): Pizza =
+      p.copy(crustSize = cs)
+
+    def updateCrustType(p: Pizza, ct: CrustType): Pizza =
+      p.copy(crustType = ct)
+
+  end PizzaService
+  ```
+
+#### Functional Objects
+
+- In the book, Programming in Scala, the authors define the term, “Functional Objects” as “objects that do not have any mutable state”. This is also the case for types in scala.collection.immutable. For example, methods on List do not mutate the interal state, but instead create a copy of the List as a result.
+- You can think of this approach as a “hybrid FP/OOP design” because you:
+  - Model the data using immutable case classes.
+  - Define the behaviors (methods) in the same type as the data.
+  - Implement the behavior as pure functions: They don’t mutate any internal state; rather, they return a copy.
+- This really is a hybrid approach: like in an OOP design, the methods are encapsulated in the class with the data, but as typical for a FP design, methods are implemented as pure functions that don’t mutate the data
+- Using this approach, you can directly implement the functionality on pizzas in the case class:
+
+  ```scala
+  case class Pizza(
+    crustSize: CrustSize,
+    crustType: CrustType,
+    toppings: Seq[Topping]
+  ):
+
+    // the operations on the data model
+    def price: Double =
+      pizzaPrice(this) // implementation from above
+
+    def addTopping(t: Topping): Pizza =
+      this.copy(toppings = this.toppings :+ t)
+
+    def removeAllToppings: Pizza =
+      this.copy(toppings = Seq.empty)
+
+    def updateCrustSize(cs: CrustSize): Pizza =
+      this.copy(crustSize = cs)
+
+    def updateCrustType(ct: CrustType): Pizza =
+      this.copy(crustType = ct)
+  ```
+
+- Notice that unlike the previous approaches, because these are methods on the Pizza class, they don’t take a Pizza reference as an input parameter. Instead, they have their own reference to the current pizza instance as this.
+- Now you can use this new design like this:
+  ```scala
+  Pizza(Small, Thin, Seq(Cheese))
+    .addTopping(Pepperoni)
+    .updateCrustType(Thick)
+    .price
+  ```
+
+#### Extension Methods
+
+- Finally, we show an approach that lies between the first one (defining functions in the companion object) and the last one (defining functions as methods on the type itself).
+- Extension methods let us create an API that is like the one of functional object, without having to define functions as methods on the type itself. This can have multiple advantages:
+- Our data model is again very concise and does not mention any behavior.
+  - We can equip types with additional methods retroactively without having to change the original definition.
+  - Other than companion objects or direct methods on the types, extension methods can be defined externally in another file.
+- Let us revisit our example once more.
+
+  ```scala
+  case class Pizza(
+    crustSize: CrustSize,
+    crustType: CrustType,
+    toppings: Seq[Topping]
+  )
+
+  extension (p: Pizza)
+    def price: Double =
+      pizzaPrice(p) // implementation from above
+
+    def addTopping(t: Topping): Pizza =
+      p.copy(toppings = p.toppings :+ t)
+
+    def removeAllToppings: Pizza =
+      p.copy(toppings = Seq.empty)
+
+    def updateCrustSize(cs: CrustSize): Pizza =
+      p.copy(crustSize = cs)
+
+    def updateCrustType(ct: CrustType): Pizza =
+      p.copy(crustType = ct)
+  ```
+
+### Summary of this Approach
+
+- Defining a data model in Scala/FP tends to be simple: Just model variants of the data with enumerations and compound data with case classes. Then, to model the behavior, define functions that operate on values of your data model. We have seen different ways to organize your functions:
+  - You can put your methods in companion objects
+  - You can use a modular programming style, separating interface and implementation
+  - You can use a “functional objects” approach and store the methods on the defined data type
+  - You can use extension methods to equip your data model with functionality
