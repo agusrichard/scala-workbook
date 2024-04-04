@@ -235,3 +235,5 @@
   aCircle.diameter
   aCircle.area
   ```
+
+## MAIN METHODS IN SCALA 3
