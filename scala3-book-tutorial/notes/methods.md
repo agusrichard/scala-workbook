@@ -237,3 +237,16 @@
   ```
 
 ## MAIN METHODS IN SCALA 3
+
+### Writing one line programs
+
+- Scala 3 offers a new way to define programs that can be invoked from the command line: Adding a @main annotation to a method turns it into entry point of an executable program:
+  ```scala
+  @main def hello() = println("Hello, World")
+  ```
+- To run this program, save the line of code in a file named as e.g. Hello.scala—the filename doesn’t have to match the method name—and run it with scala:
+  ```scala
+  $ scala Hello.scala
+  Hello, World
+  ```
+- A @main annotated method can be written either at the top-level (as shown), or inside a statically accessible object. In either case, the name of the program is in each case the name of the method, without any object prefixes.
