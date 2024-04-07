@@ -9,3 +9,4 @@
 - [String Interpolation](./notes/string-interpolation.md)
 - [Control Structures](./notes/control-structures.md)
 - [Domain Modeling](./notes/domain-modeling.md)
+- [Methods]
