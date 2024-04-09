@@ -117,3 +117,5 @@
   ```
 
 - The important part for Scala 3 is that the Eta Expansion technology is improved, so now when you attempt to use a method as a variable, it just works—you don’t have to handle the manual conversion yourself.
+
+## Higher-order Functions
