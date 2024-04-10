@@ -119,3 +119,122 @@
 - The important part for Scala 3 is that the Eta Expansion technology is improved, so now when you attempt to use a method as a variable, it just works—you don’t have to handle the manual conversion yourself.
 
 ## Higher-order Functions
+
+- A higher-order function (HOF) is often defined as a function that (a) takes other functions as input parameters or (b) returns a function as a result. In Scala, HOFs are possible because functions are first-class values.
+
+### Understanding filter’s Scaladoc
+
+- For instance, you can understand the type of functions filter accepts by looking at its Scaladoc. Here’s the filter definition in the List[A] class:
+  ```scala
+  def filter(p: A => Boolean): List[A]
+  ```
+- This states that filter is a method that takes a function parameter named p. By convention, p stands for a predicate, which is just a function that returns a Boolean value. So filter takes a predicate p as an input parameter, and returns a List[A], where A is the type held in the list; if you call filter on a List[Int], A is the type Int.
+- `p: A => Boolean` means that whatever function you pass in must take the type A as an input parameter and return a Boolean.
+- So if your list is a List[Int], you can replace the generic type A with Int, and read that signature like this:
+
+### Writing methods that take function parameters
+
+- To make the following discussion clear, we’ll refer to the code you’re writing as a method, and the code you’re accepting as an input parameter as a function.
+
+#### A first example
+
+- To create a method that takes a function parameter, all you have to do is:
+  - In your method’s parameter list, define the signature of the function you want to accept
+  - Use that function inside your method
+- To demonstrate this, here’s a method that takes an input parameter named f, where f is a function:
+  ```scala
+  def sayHello(f: () => Unit): Unit = f()
+  ```
+- Here’s how this works:
+  - f is the name of the function input parameter. It’s just like naming a String parameter s or an Int parameter i.
+  - The type signature of f specifies the type of the functions this method will accept.
+  - The () portion of f’s signature (on the left side of the => symbol) states that f takes no input parameters.
+  - The Unit portion of the signature (on the right side of the => symbol) indicates that f should not return a meaningful result.
+  - Looking back at the body of the sayHello method (on the right side of the = symbol), the f() statement there invokes the function that’s passed in.
+- The following function takes no input parameters and returns nothing, so it matches f’s type signature:
+
+  ```scala
+  def helloJoe(): Unit = println("Hello, Joe")
+
+  def bonjourJulien(): Unit = println("Bonjour, Julien")
+  ```
+
+- Because the type signatures match, you can pass helloJoe into sayHello:
+  ```scala
+  sayHello(helloJoe)   // prints "Hello, Joe"
+  ```
+
+### The general syntax for defining function input parameters
+
+- To demonstrate more type signature examples, here’s a function that takes a String parameter and returns an Int:
+  ```scala
+  f: String => Int
+  ```
+- Similarly, this function takes two Int parameters and returns an Int:
+  ```scala
+  f: (Int, Int) => Int
+  ```
+- Can you imagine what sort of functions match that signature? The answer is that any function that takes two Int input parameters and returns an Int matches that signature, so all of these “functions” (methods, really) are a match:
+  ```scala
+  def add(a: Int, b: Int): Int = a + b
+  def subtract(a: Int, b: Int): Int = a - b
+  def multiply(a: Int, b: Int): Int = a * b
+  ```
+
+### Taking a function parameter along with other parameters
+
+- For instance, here’s a method named executeNTimes that has two input parameters: a function, and an Int:
+  ```scala
+  def executeNTimes(f: () => Unit, n: Int): Unit =
+    for i <- 1 to n do f()
+  ```
+- As the code shows, executeNTimes executes the f function n times. Because a simple for loop like this has no return value, executeNTimes returns Unit.
+- To test executeNTimes, define a method that matches f’s signature:
+
+  ```scala
+  // a method of type `() => Unit`
+  def helloWorld(): Unit = println("Hello, world")
+
+  executeNTimes(helloWorld, 3)
+  // Hello, world
+  // Hello, world
+  // Hello, world
+  ```
+
+- Complicated example:
+
+  ```scala
+  def executeAndPrint(f: (Int, Int) => Int, i: Int, j: Int): Unit =
+    println(f(i, j))
+
+  def sum(x: Int, y: Int) = x + y
+  def multiply(x: Int, y: Int) = x * y
+
+  executeAndPrint(sum, 3, 11)       // prints 14
+  executeAndPrint(multiply, 3, 9)   // prints 27
+  ```
+
+### Function type signature consistency
+
+- A great thing about learning about Scala’s function type signatures is that the syntax you use to define function input parameters is the same syntax you use to write function literals.
+- For instance, if you were to write a function that calculates the sum of two integers, you’d write it like this:
+
+```scala
+val f: (Int, Int) => Int = (a, b) => a + b
+
+// That code consists of the type signature:
+val f: (Int, Int) => Int = (a, b) => a + b
+       -----------------
+
+// The input parameters:
+val f: (Int, Int) => Int = (a, b) => a + b
+                           ------
+
+// and the body of the function:
+val f: (Int, Int) => Int = (a, b) => a + b
+                                     -----
+
+// Scala’s consistency is shown here, where this function type:
+val f: (Int, Int) => Int = (a, b) => a + b
+       -----------------
+```
