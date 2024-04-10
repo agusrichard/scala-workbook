@@ -276,3 +276,39 @@ val f: (Int, Int) => Int = (a, b) => a + b
   def map[A, B](f: (B) => A, xs: List[B]): List[A] =
     for x <- xs yield f(x)
   ```
+
+## Creating a Method that Returns a Function
+
+- I want to create a greet method that returns a function. That function will take a string parameter and print it using println. To simplify this first example, greet won’t take any input parameters; it will just build a function and return it.
+- Now you just return that function from the method:
+  ```scala
+  // a method that returns a function
+  def greet(): String => Unit =
+    (name: String) => println(s"Hello, $name")
+  ```
+
+### Improving the method
+
+- Our method would be more useful if you could pass in a greeting, so let’s do that. All you have to do is pass the greeting in as a parameter to the greet method, and use it in the string inside println:
+  ```scala
+  def greet(theGreeting: String): String => Unit =
+    (name: String) => println(s"$theGreeting, $name")
+  ```
+
+### A more real-world example
+
+- Snippet:
+
+  ```scala
+  def createGreetingFunction(desiredLanguage: String): String => Unit =
+    val englishGreeting = (name: String) => println(s"Hello, $name")
+    val frenchGreeting = (name: String) => println(s"Bonjour, $name")
+    desiredLanguage match
+      case "english" => englishGreeting
+      case "french" => frenchGreeting
+
+  val greetInFrench = createGreetingFunction("french")
+  greetInFrench("Jonathan")   // prints "Bonjour, Jonathan"
+  val greetInEnglish = createGreetingFunction("english")
+  greetInEnglish("Joe")   // prints "Hello, Joe"
+  ```
