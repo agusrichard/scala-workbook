@@ -1,6 +1,10 @@
 import scala.util.Try
 import scala.io.StdIn.readLine
 
+
+def giveMeSomething(n: Int, factor: Float): IndexedSeq[Float] =
+    for i <- 0 to n yield i*factor
+
 @main def controlStructures() =
     println("Please enter x: ")
     val input = readLine()
@@ -36,3 +40,5 @@ import scala.io.StdIn.readLine
 
     val doubles: List[Int] = List(2, 4, 6, 8, 10)
     println(doubles)
+
+    print(giveMeSomething(10, 2))
