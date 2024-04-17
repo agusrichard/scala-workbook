@@ -313,3 +313,154 @@ val c = b ++ Seq(4, 1, 5, 5)     // HashSet(5, 1, 2, 3, 4)
   val map = (1 to 3).map(e => (e,s"$e")).toMap
       // map: Map[Int, String] = Map(1 -> "1", 2 -> "2", 3 -> "3")
   ```
+
+## Collection Methods
+- The following methods work on all of the sequence types, including List, Vector, ArrayBuffer, etc., but these examples use a List unless otherwise specified.
+- As a very important note, none of the methods on List mutate the list. They all work in a functional style, meaning that they return a new collection with the modified results.
+
+### Examples of common method
+```scala
+val a = List(10, 20, 30, 40, 10)      // List(10, 20, 30, 40, 10)
+
+a.distinct                            // List(10, 20, 30, 40)
+a.drop(2)                             // List(30, 40, 10)
+a.dropRight(2)                        // List(10, 20, 30)
+a.head                                // 10
+a.headOption                          // Some(10)
+a.init                                // List(10, 20, 30, 40)
+a.intersect(List(19,20,21))           // List(20)
+a.last                                // 10
+a.lastOption                          // Some(10)
+a.slice(2,4)                          // List(30, 40)
+a.tail                                // List(20, 30, 40, 10)
+a.take(3)                             // List(10, 20, 30)
+a.takeRight(2)                        // List(40, 10)
+
+// these functions are all equivalent and return
+// the same data: List(10, 20, 10)
+
+a.filter((i: Int) => i < 25)   // 1. most explicit form
+a.filter((i) => i < 25)        // 2. `Int` is not required
+a.filter(i => i < 25)          // 3. the parens are not required
+a.filter(_ < 25)               // 4. `i` is not required
+
+def double(i: Int) = i * 2
+
+// these all return `List(20, 40, 60, 80, 20)`
+a.map(i => double(i))
+a.map(double(_))
+a.map(double)
+
+// yields `List(100, 200)`
+a.filter(_ < 40)
+.takeWhile(_ < 30)
+.map(_ * 10)
+
+val oneToTen = (1 to 10).toList
+val names = List("adam", "brandy", "chris", "david")
+
+scala> val doubles = oneToTen.map(_ * 2)
+doubles: List[Int] = List(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+
+scala> val doubles = oneToTen.map(i => i * 2)
+doubles: List[Int] = List(2, 4, 6, 8, 10, 12, 14, 16, 18, 20)
+
+scala> val capNames = names.map(_.capitalize)
+capNames: List[String] = List(Adam, Brandy, Chris, David)
+
+scala> val nameLengthsMap = names.map(s => (s, s.length)).toMap
+nameLengthsMap: Map[String, Int] = Map(adam -> 4, brandy -> 6, chris -> 5, david -> 5)
+
+scala> val isLessThanFive = oneToTen.map(_ < 5)
+isLessThanFive: List[Boolean] = List(true, true, true, true, false, false, false, false, false, false)
+
+scala> val lessThanFive = oneToTen.filter(_ < 5)
+lessThanFive: List[Int] = List(1, 2, 3, 4)
+
+scala> val evens = oneToTen.filter(_ % 2 == 0)
+evens: List[Int] = List(2, 4, 6, 8, 10)
+
+scala> val shortNames = names.filter(_.length <= 4)
+shortNames: List[String] = List(adam)
+
+oneToTen.filter(_ < 4).map(_ * 10)
+
+scala> oneToTen.filter(_ < 4).map(_ * 10)
+val res1: List[Int] = List(10, 20, 30)
+
+names.foreach(println)
+
+oneToTen.head   // 1
+names.head      // adam
+
+"foo".head   // 'f'
+"bar".head   // 'b'
+
+val emptyList = List[Int]()   // emptyList: List[Int] = List()
+emptyList.head                // java.util.NoSuchElementException: head of empty list
+
+emptyList.headOption          // None
+
+oneToTen.head   // 1
+oneToTen.tail   // List(2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+names.head      // adam
+names.tail      // List(brandy, chris, david)
+
+"foo".tail   // "oo"
+"bar".tail   // "ar"
+
+scala> val x :: xs = names
+val x: String = adam
+val xs: List[String] = List(brandy, chris, david)
+
+def sum(list: List[Int]): Int = list match
+  case Nil => 0
+  case x :: xs => x + sum(xs)
+
+oneToTen.take(1)        // List(1)
+oneToTen.take(2)        // List(1, 2)
+
+oneToTen.takeRight(1)   // List(10)
+oneToTen.takeRight(2)   // List(9, 10)
+
+oneToTen.take(Int.MaxValue)        // List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+oneToTen.takeRight(Int.MaxValue)   // List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+oneToTen.take(0)                   // List()
+oneToTen.takeRight(0)              // List()
+
+oneToTen.takeWhile(_ < 5)       // List(1, 2, 3, 4)
+names.takeWhile(_.length < 5)   // List(adam)
+
+oneToTen.drop(1)        // List(2, 3, 4, 5, 6, 7, 8, 9, 10)
+oneToTen.drop(5)        // List(6, 7, 8, 9, 10)
+
+oneToTen.dropRight(8)   // List(1, 2)
+oneToTen.dropRight(7)   // List(1, 2, 3)
+
+oneToTen.drop(Int.MaxValue)        // List()
+oneToTen.dropRight(Int.MaxValue)   // List()
+oneToTen.drop(0)                   // List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+oneToTen.dropRight(0)              // List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+oneToTen.dropWhile(_ < 5)       // List(5, 6, 7, 8, 9, 10)
+names.dropWhile(_ != "chris")   // List(chris, david)
+
+def add(x: Int, y: Int): Int =
+  val theSum = x + y
+  println(s"received $x and $y, their sum is $theSum")
+  theSum
+
+val a = List(1,2,3,4)
+a.reduce(add)
+// received 1 and 2, their sum is 3
+// received 3 and 3, their sum is 6
+// received 6 and 4, their sum is 10
+// res0: Int = 10
+
+scala> a.reduce(_ + _)
+res0: Int = 10
+
+scala> a.reduce(_ * _)
+res1: Int = 24
+```
