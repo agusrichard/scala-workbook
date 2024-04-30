@@ -1,1 +1,18 @@
 # Type and Type System
+
+**Sources**
+- https://docs.scala-lang.org/scala3/book/types-introduction.html
+
+
+## Introduction
+- Scala is a unique language in that it’s statically typed, but often feels flexible and dynamic. For instance, thanks to type inference you can write code like this without explicitly specifying the variable types:
+  ```scala
+  val a = 1
+  val b = 2.0
+  val c = "Hi!"
+  ```
+- And thanks to new features, like union types in Scala 3, you can also write code like the following that expresses very concisely which values are expected as arguments and which types are returned:
+  ```scala
+  def isTruthy(a: Boolean | Int | String): Boolean = ???
+  def dogCatOrWhatever(): Dog | Plant | Car | Sun = ???
+  ```
