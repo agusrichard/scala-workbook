@@ -2,8 +2,7 @@
 
 **Sources**
 - https://docs.scala-lang.org/scala3/book/types-introduction.html
-- https://docs.scala-lang.org/scala3/book/types-generics.html
-
+- https://docs.scala-lang.org/scala3/book/types-inferred.html
 
 ## Introduction
 - Scala is a unique language in that it’s statically typed, but often feels flexible and dynamic. For instance, thanks to type inference you can write code like this without explicitly specifying the variable types:
@@ -17,3 +16,5 @@
   def isTruthy(a: Boolean | Int | String): Boolean = ???
   def dogCatOrWhatever(): Dog | Plant | Car | Sun = ???
   ```
+
+## Inferred Types
