@@ -266,3 +266,188 @@
       case _ => throw new NoSuchElementException(ordinal.toString)
   ```
 - While enums could be manually encoded using other constructs, using enumerations is more concise and also comes with a few additional utilities (such as the fromOrdinal method).
+
+## Variance
+- Type parameter variance controls the subtyping of parameterized types (like classes or traits).
+- To explain variance, let us assume the following type definitions:
+  ```scala
+  trait Item { def productNumber: String }
+  trait Buyable extends Item { def price: Int }
+  trait Book extends Buyable { def isbn: String }
+  ```
+- Let us also assume the following parameterized types:
+  ```scala
+  // an example of an invariant type
+  trait Pipeline[T]:
+    def process(t: T): T
+
+  // an example of a covariant type
+  trait Producer[+T]:
+    def make: T
+
+  // an example of a contravariant type
+  trait Consumer[-T]:
+    def take(t: T): Unit
+  ```
+
+### Invariant Types
+- By default, types like Pipeline are invariant in their type argument (T in this case). This means that types like Pipeline[Item], Pipeline[Buyable], and Pipeline[Book] are in no subtyping relationship to each other.
+- And rightfully so! Assume the following method that consumes two values of type Pipeline[Buyable], and passes its argument b to one of them, based on the price:
+  ```scala
+  def oneOf(
+    p1: Pipeline[Buyable],
+    p2: Pipeline[Buyable],
+    b: Buyable
+  ): Buyable =
+    val b1 = p1.process(b)
+    val b2 = p2.process(b)
+    if b1.price < b2.price then b1 else b2
+  ```
+- Now, recall that we have the following subtyping relationship between our types:
+  ```scala
+  Book <: Buyable <: Item
+  ```
+- We cannot pass a Pipeline[Book] to the method oneOf because in its implementation, we call p1 and p2 with a value of type Buyable. A Pipeline[Book] expects a Book, which can potentially cause a runtime error. We cannot pass a Pipeline[Item] because calling process on it only promises to return an Item; however, we are supposed to return a Buyable.
+- Why Invariant? In fact, type Pipeline needs to be invariant since it uses its type parameter T both as an argument and as a return type. For the same reason, some types in the Scala collection library—like Array or Set—are also invariant.
+
+### Covariant Types
+- In contrast to Pipeline, which is invariant, the type Producer is marked as covariant by prefixing the type parameter with a +. This is valid, since the type parameter is only used in a return position.
+- Marking it as covariant means that we can pass (or return) a Producer[Book] where a Producer[Buyable] is expected. And in fact, this is sound. The type of Producer[Buyable].make only promises to return a Buyable. As a caller of make, we will be happy to also accept a Book, which is a subtype of Buyable—that is, it is at least a Buyable.
+- This is illustrated by the following example, where the function makeTwo expects a Producer[Buyable]:
+  ```scala
+  def makeTwo(p: Producer[Buyable]): Int =
+    p.make.price + p.make.price
+  ```
+- It is perfectly fine to pass a producer for books:
+  ```scala
+  val bookProducer: Producer[Book] = ???
+  makeTwo(bookProducer)
+  ```
+- You will encounter covariant types a lot when dealing with immutable containers, like those that can be found in the standard library (such as List, Seq, Vector, etc.). For example, List and Vector are approximately defined as:
+  ```scala
+  class List[+A] ...
+  class Vector[+A] ...
+  ```
+- This way, you can use a List[Book] where a List[Buyable] is expected. This also intuitively makes sense: If you are expecting a collection of things that can be bought, it should be fine to give you a collection of books. They have an additional ISBN method in our example, but you are free to ignore these additional capabilities.
+
+### Contravariant Types
+- In contrast to the type Producer, which is marked as covariant, the type Consumer is marked as contravariant by prefixing the type parameter with a -. This is valid, since the type parameter is only used in an argument position.
+- Marking it as contravariant means that we can pass (or return) a Consumer[Item] where a Consumer[Buyable] is expected. That is, we have the subtyping relationship Consumer[Item] <: Consumer[Buyable]. Remember, for type Producer, it was the other way around, and we had Producer[Buyable] <: Producer[Item].
+- And in fact, this is sound. The method Consumer[Item].take accepts an Item. As a caller of take, we can also supply a Buyable, which will be happily accepted by the Consumer[Item] since Buyable is a subtype of Item—that is, it is at least an Item.
+- Contravariant types are much less common than covariant types. As in our example, you can think of them as “consumers.” The most important type that you might come across that is marked contravariant is the one of functions:
+  ```scala
+  trait Function[-A, +B]:
+    def apply(a: A): B
+  ```
+- Its argument type A is marked as contravariant A—it consumes values of type A. In contrast, its result type B is marked as covariant—it produces values of type B.
+- Here are some examples that illustrate the subtyping relationships induced by variance annotations on functions:
+  ```scala
+  val f: Function[Buyable, Buyable] = b => b
+
+  // OK to return a Buyable where a Item is expected
+  val g: Function[Buyable, Item] = f
+
+  // OK to provide a Book where a Buyable is expected
+  val h: Function[Book, Buyable] = f
+  ```
+
+## Opaque Types
+
+### Abstraction Overhead
+- Let us assume we want to define a module that offers arithmetic on numbers, which are represented by their logarithm. This can be useful to improve precision when the numerical values involved tend to be very large, or close to zero. Since it is important to distinguish “regular” double values from numbers stored as their logarithm, we introduce a class Logarithm:
+  ```scala
+  class Logarithm(protected val underlying: Double):
+    def toDouble: Double = math.exp(underlying)
+    def + (that: Logarithm): Logarithm =
+      // here we use the apply method on the companion
+      Logarithm(this.toDouble + that.toDouble)
+    def * (that: Logarithm): Logarithm =
+      new Logarithm(this.underlying + that.underlying)
+
+  object Logarithm:
+    def apply(d: Double): Logarithm = new Logarithm(math.log(d))
+  ```
+- The apply method on the companion object lets us create values of type Logarithm which we can use as follows:
+  ```scala
+  val l2 = Logarithm(2.0)
+  val l3 = Logarithm(3.0)
+  println((l2 * l3).toDouble) // prints 6.0
+  println((l2 + l3).toDouble) // prints 4.999...
+  ```
+
+### Module Abstractions
+- Let us consider another approach to implement the same library. This time instead of defining Logarithm as a class, we define it using a type alias. First, we define an abstract interface of our module:
+  ```scala
+  trait Logarithms:
+
+    type Logarithm
+
+    // operations on Logarithm
+    def add(x: Logarithm, y: Logarithm): Logarithm
+    def mul(x: Logarithm, y: Logarithm): Logarithm
+
+    // functions to convert between Double and Logarithm
+    def make(d: Double): Logarithm
+    def extract(x: Logarithm): Double
+
+    // extension methods to use `add` and `mul` as "methods" on Logarithm
+    extension (x: Logarithm)
+      def toDouble: Double = extract(x)
+      def + (y: Logarithm): Logarithm = add(x, y)
+      def * (y: Logarithm): Logarithm = mul(x, y)
+  ```
+- Now, let us implement this abstract interface by saying type Logarithm is equal to Double:
+  ```scala
+  object LogarithmsImpl extends Logarithms:
+
+    type Logarithm = Double
+
+    // operations on Logarithm
+    def add(x: Logarithm, y: Logarithm): Logarithm = make(x.toDouble + y.toDouble)
+    def mul(x: Logarithm, y: Logarithm): Logarithm = x + y
+
+    // functions to convert between Double and Logarithm
+    def make(d: Double): Logarithm = math.log(d)
+    def extract(x: Logarithm): Double = math.exp(x)
+  ```
+- Within the implementation of LogarithmsImpl, the equation Logarithm = Double allows us to implement the various methods.
+- However, this abstraction is slightly leaky. We have to make sure to only ever program against the abstract interface Logarithms and never directly use LogarithmsImpl. Directly using LogarithmsImpl would make the equality Logarithm = Double visible for the user, who might accidentally use a Double where a logarithmic double is expected. For example:
+  ```scala
+  import LogarithmsImpl.*
+  val l: Logarithm = make(1.0)
+  val d: Double = l // type checks AND leaks the equality!
+  ```
+- Having to separate the module into an abstract interface and implementation can be useful, but is also a lot of effort, just to hide the implementation detail of Logarithm. Programming against the abstract module Logarithms can be very tedious and often requires the use of advanced features like path-dependent types, as in the following example:
+  ```scala
+  def someComputation(L: Logarithms)(init: L.Logarithm): L.Logarithm = ...
+  ```
+- Type abstractions, such as type Logarithm erase to their bound (which is Any in our case). That is, although we do not need to manually wrap and unwrap the Double value, there will be still some boxing overhead related to boxing the primitive type Double.
+
+
+### Opaque Types
+- Instead of manually splitting our Logarithms component into an abstract part and into a concrete implementation, we can simply use opaque types in Scala 3 to achieve a similar effect:
+  ```scala
+  object Logarithms:
+  //vvvvvv this is the important difference!
+    opaque type Logarithm = Double
+
+    object Logarithm:
+      def apply(d: Double): Logarithm = math.log(d)
+
+    extension (x: Logarithm)
+      def toDouble: Double = math.exp(x)
+      def + (y: Logarithm): Logarithm = Logarithm(math.exp(x) + math.exp(y))
+      def * (y: Logarithm): Logarithm = x + y
+  ```
+- The fact that Logarithm is the same as Double is only known in the scope where Logarithm is defined, which in the above example corresponds to the object Logarithms. The type equality Logarithm = Double can be used to implement the methods (like * and toDouble).
+- However, outside of the module the type Logarithm is completely encapsulated, or “opaque.” To users of Logarithm it is not possible to discover that Logarithm is actually implemented as a Double:
+  ```scala
+  import Logarithms.*
+  val log2 = Logarithm(2.0)
+  val log3 = Logarithm(3.0)
+  println((log2 * log3).toDouble) // prints 6.0
+  println((log2 + log3).toDouble) // prints 4.999...
+
+  val d: Double = log2 // ERROR: Found Logarithm required Double
+  ```
+- Even though we abstracted over Logarithm, the abstraction comes for free: Since there is only one implementation, at runtime there will be no boxing overhead for primitive types like Double.
