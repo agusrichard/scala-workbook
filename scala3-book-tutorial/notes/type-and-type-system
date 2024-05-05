@@ -451,3 +451,94 @@
   val d: Double = log2 // ERROR: Found Logarithm required Double
   ```
 - Even though we abstracted over Logarithm, the abstraction comes for free: Since there is only one implementation, at runtime there will be no boxing overhead for primitive types like Double.
+
+## Structural Types
+- Here’s an example of a structural type Person:
+  ```scala
+  class Record(elems: (String, Any)*) extends Selectable:
+    private val fields = elems.toMap
+    def selectDynamic(name: String): Any = fields(name)
+
+  type Person = Record {
+    val name: String
+    val age: Int
+  }
+  ```
+- The Person type adds a refinement to its parent type Record that defines name and age fields. We say the refinement is structural since name and age are not defined in the parent type. But they exist nevertheless as members of class Person. For instance, the following program would print "Emma is 42 years old.":
+  ```scala
+  val person = Record(
+    "name" -> "Emma",
+    "age" -> 42
+  ).asInstanceOf[Person]
+
+  println(s"${person.name} is ${person.age} years old.")
+  ```
+- The parent type Record in this example is a generic class that can represent arbitrary records in its elems argument. This argument is a sequence of pairs of labels of type String and values of type Any. When you create a Person as a Record you have to assert with a typecast that the record defines the right fields of the right types. Record itself is too weakly typed, so the compiler cannot know this without help from the user. In practice, the connection between a structural type and its underlying generic representation would most likely be done by a database layer, and therefore would not be a concern of the end user.
+- Record extends the marker trait scala.Selectable and defines a method selectDynamic, which maps a field name to its value. Selecting a structural type member is done by calling this method. The person.name and person.age selections are translated by the Scala compiler to:
+  ```scala
+  person.selectDynamic("name").asInstanceOf[String]
+  person.selectDynamic("age").asInstanceOf[Int]
+  ```
+- To reinforce what you just saw, here’s another structural type named Book that represents a book that you might read from a database:
+  ```scala
+  type Book = Record {
+    val title: String
+    val author: String
+    val year: Int
+    val rating: Double
+  }
+  ```
+- As with Person, this is how you create a Book instance:
+  ```scala
+  val book = Record(
+    "title" -> "The Catcher in the Rye",
+    "author" -> "J. D. Salinger",
+    "year" -> 1951,
+    "rating" -> 4.5
+  ).asInstanceOf[Book]
+  ```
+- Besides selectDynamic, a Selectable class sometimes also defines a method applyDynamic. This can then be used to translate function calls of structural members. So, if a is an instance of Selectable, a structural call like a.f(b, c) translates to:
+  ```scala
+  a.applyDynamic("f")(b, c)
+  ```
+
+## Dependent Types
+- A dependent function type describes function types, where the result type may depend on the function’s parameter values. The concept of dependent types, and of dependent function types is more advanced and you would typically only come across it when designing your own libraries or using advanced libraries.
+- Let’s consider the following example of a heterogenous database that can store values of different types. The key contains the information about what’s the type of the corresponding value:
+  ```scala
+  trait Key { type Value }
+
+  trait DB {
+    def get(k: Key): Option[k.Value] // a dependent method
+  }
+  ```
+- Given a key, the method get lets us access the map and potentially returns the stored value of type k.Value. We can read this path-dependent type as: “depending on the concrete type of the argument k, we return a matching value”.
+- For example, we could have the following keys:
+  ```scala
+  object Name extends Key { type Value = String }
+  object Age extends Key { type Value = Int }
+  ```
+- The following calls to method get would now type check:
+  ```scala
+  val db: DB = ...
+  val res1: Option[String] = db.get(Name)
+  val res2: Option[Int] = db.get(Age)
+  ```
+- Calling the method db.get(Name) returns a value of type Option[String], while calling db.get(Age) returns a value of type Option[Int]. The return type depends on the concrete type of the argument passed to get—hence the name dependent type.
+- Let us assume we want to define a module that abstracts over the internal represention of numbers. This can be useful, for instance, to implement libraries for automatic derivation. We start by defining our module for numbers:
+  ```scala
+  trait Nums:
+    // the type of numbers is left abstract
+    type Num
+
+    // some operations on numbers
+    def lit(d: Double): Num
+    def add(l: Num, r: Num): Num
+    def mul(l: Num, r: Num): Num
+  ```
+- A program that uses our number abstraction now has the following type:
+  ```scala
+  type Prog = (n: Nums) => n.Num => n.Num
+
+  val ex: Prog = nums => x => nums.add(nums.lit(0.8), x)
+  ```
