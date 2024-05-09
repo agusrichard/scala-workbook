@@ -156,3 +156,265 @@
     as.reduceLeft(max(_, _))
   ```
 - A bound like : Ord on a type parameter A of a method or class indicates a context parameter with type Ord[A]. Under the hood, the compiler transforms this syntax into the one shown in the Background section.
+
+## Given Imports (Scala3)
+- To make it more clear where givens in the current scope are coming from, a special form of the import statement is used to import given instances. The basic form is shown in this example:
+  ```scala
+  object A:
+    class TC
+    given tc: TC = ???
+    def f(using TC) = ???
+
+  object B:
+    import A.*       // import all non-given members
+    import A.given   // import the given instance
+  ```
+- In this code the import A.* clause of object B imports all members of A except the given instance, tc. Conversely, the second import, import A.given, imports only that given instance. The two import clauses can also be merged into one:
+  ```scala
+  object B:
+    import A.{given, *}
+  ```
+
+## Type Classes
+- A type class is an abstract, parameterized type that lets you add new behavior to any closed data type without using sub-typing. 
+
+### The type class
+- The first step in creating a type class is to declare a parameterized trait that has one or more abstract methods. Because Showable only has one method named show, it’s written like this:
+  ```scala
+  // a type class
+  trait Showable[A]:
+    extension (a: A) def show: String
+  ```
+- Notice that this approach is close to the usual object-oriented approach, where you would typically define a trait Show as follows:
+  ```scala
+  // a trait
+  trait Show:
+    def show: String
+  ```
+- There are a few important things to point out:
+  - Type-classes like Showable take a type parameter A to say which type we provide the implementation of show for; in contrast, classic traits like Show do not.
+  - To add the show functionality to a certain type A, the classic trait requires that A extends Show, while for type-classes we require to have an implementation of Showable[A].
+  - In Scala 3, to allow the same method calling syntax in both Showable that mimics the one of Show, we define Showable.show as an extension method.
+
+### Implement concrete instances
+- The next step is to determine what classes in your application Showable should work for, and then implement that behavior for them. For instance, to implement Showable for this Person class:
+  ```scala
+  case class Person(firstName: String, lastName: String)
+  ```
+- you’ll define a single canonical value of type Showable[Person], ie an instance of Showable for the type Person, as the following code example demonstrates:
+  ```scala
+  given Showable[Person] with
+    extension (p: Person) def show: String =
+      s"${p.firstName} ${p.lastName}"
+  ```
+
+### Using the type class
+- Now you can use this type class like this:
+  ```scala
+  val person = Person("John", "Doe")
+  println(person.show)
+  ```
+- Again, if Scala didn’t have a toString method available to every class, you could use this technique to add Showable behavior to any class that you want to be able to convert to a String.
+
+### Writing methods that use the type class
+- As with inheritance, you can define methods that use Showable as a type parameter:
+  ```scala
+  def showAll[A: Showable](as: List[A]): Unit =
+    as.foreach(a => println(a.show))
+
+  showAll(List(Person("Jane"), Person("Mary")))
+  ```
+
+### A type class with multiple methods
+- Note that if you want to create a type class that has multiple methods, the initial syntax looks like this:
+  ```scala
+  trait HasLegs[A]:
+    extension (a: A)
+      def walk(): Unit
+      def run(): Unit
+  ```
+
+## Multiversal Equality
+
+### Allowing the comparison of class instances
+- By default, in Scala 3 you can still create an equality comparison like this:
+  ```scala
+  case class Cat(name: String)
+  case class Dog(name: String)
+  val d = Dog("Fido")
+  val c = Cat("Morris")
+
+  d == c  // false, but it compiles
+  ```
+- But with Scala 3 you can disable such comparisons. By (a) importing scala.language.strictEquality or (b) using the -language:strictEquality compiler flag, this comparison no longer compiles:
+  ```scala
+  import scala.language.strictEquality
+
+  val rover = Dog("Rover")
+  val fido = Dog("Fido")
+  println(rover == fido)   // compiler error
+
+  // compiler error message:
+  // Values of types Dog and Dog cannot be compared with == or !=
+  ```
+
+### Enabling comparisons
+- There are two ways to enable this comparison using the Scala 3 CanEqual type class. For simple cases like this, your class can derive the CanEqual class:
+  ```scala
+  // Option 1
+  case class Dog(name: String) derives CanEqual
+  ```
+- As you’ll see in a few moments, when you need more flexibility you can also use this syntax:
+  ```scala
+  // Option 2
+  case class Dog(name: String)
+  given CanEqual[Dog, Dog] = CanEqual.derived
+  ```
+- Either of those two approaches now let Dog instances to be compared to each other.
+
+### A more real-world example
+- In a more real-world example, imagine you have an online bookstore and want to allow or disallow the comparison of physical, printed books, and audiobooks. With Scala 3 you start by enabling multiversal equality as shown in the previous example:
+  ```scala
+  // [1] add this import, or this command line flag: -language:strictEquality
+  import scala.language.strictEquality
+  ```
+- Then create your domain objects as usual:
+  ```scala
+  // [2] create your class hierarchy
+  trait Book:
+      def author: String
+      def title: String
+      def year: Int
+
+  case class PrintedBook(
+      author: String,
+      title: String,
+      year: Int,
+      pages: Int
+  ) extends Book
+
+  case class AudioBook(
+      author: String,
+      title: String,
+      year: Int,
+      lengthInMinutes: Int
+  ) extends Book
+  ```
+- Finally, use CanEqual to define which comparisons you want to allow:
+  ```scala
+  // [3] create type class instances to define the allowed comparisons.
+  //     allow `PrintedBook == PrintedBook`
+  //     allow `AudioBook == AudioBook`
+  given CanEqual[PrintedBook, PrintedBook] = CanEqual.derived
+  given CanEqual[AudioBook, AudioBook] = CanEqual.derived
+
+  // [4a] comparing two printed books works as desired
+  val p1 = PrintedBook("1984", "George Orwell", 1961, 328)
+  val p2 = PrintedBook("1984", "George Orwell", 1961, 328)
+  println(p1 == p2)         // true
+
+  // [4b] you can’t compare a printed book and an audiobook
+  val pBook = PrintedBook("1984", "George Orwell", 1961, 328)
+  val aBook = AudioBook("1984", "George Orwell", 2006, 682)
+  println(pBook == aBook)   // compiler error
+  ```
+- The last line of code results in this compiler error message:
+  ```
+  Values of types PrintedBook and AudioBook cannot be compared with == or !=
+  ```
+- This is how multiversal equality catches illegal type comparisons at compile time.
+- Enabling “PrintedBook == AudioBook”
+  ```scala
+  // allow `PrintedBook == AudioBook`, and `AudioBook == PrintedBook`
+  given CanEqual[PrintedBook, AudioBook] = CanEqual.derived
+  given CanEqual[AudioBook, PrintedBook] = CanEqual.derived
+  ```
+- Now you can compare physical books to audiobooks without a compiler error:
+  ```scala
+  println(pBook == aBook)   // false
+  println(aBook == pBook)   // false
+  ```
+- While these comparisons are now allowed, they will always be false because their equals methods don’t know how to make these comparisons. Therefore, the solution is to override the equals methods for each class. For instance, when you override the equals method for AudioBook:
+  ```scala
+  case class AudioBook(
+      author: String,
+      title: String,
+      year: Int,
+      lengthInMinutes: Int
+  ) extends Book:
+      // override to allow AudioBook to be compared to PrintedBook
+      override def equals(that: Any): Boolean = that match
+          case a: AudioBook =>
+              this.author == a.author
+              && this.title == a.title
+              && this.year == a.year
+              && this.lengthInMinutes == a.lengthInMinutes
+          case p: PrintedBook =>
+              this.author == p.author && this.title == p.title
+          case _ =>
+              false
+  ```
+- You can now compare an AudioBook to a PrintedBook:
+  ```scala
+  println(aBook == pBook)   // true (works because of `equals` in `AudioBook`)
+  println(pBook == aBook)   // false
+  ```
+- Currently, the PrintedBook book doesn’t have an equals method, so the second comparison returns false. To enable that comparison, just override the equals method in PrintedBook.
+
+## Implicit Conversions
+- Implicit conversions are a powerful Scala feature that allows users to supply an argument of one type as if it were another type, to avoid boilerplate.
+
+### Example
+- Consider for instance a method findUserById that takes a parameter of type Long:
+  ```scala
+  def findUserById(id: Long): Option[User]
+  ```
+- We omit the definition of the type User for the sake of brevity, it does not matter for our example.
+- In Scala, it is possible to call the method findUserById with an argument of type Int instead of the expected type Long, because the argument will be implicitly converted into the type Long:
+  ```scala
+  val id: Int = 42
+  findUserById(id) // OK
+  ```
+- This code does not fail to compile with an error like “type mismatch: expected Long, found Int” because there is an implicit conversion that converts the argument id to a value of type Long
+
+### Defining an Implicit Conversion
+- In Scala 3, an implicit conversion from type S to type T is defined by a given instance of type scala.Conversion[S, T]. For compatibility with Scala 2, it can also be defined by an implicit method (read more in the Scala 2 tab). For example, this code defines an implicit conversion from Int to Long:
+  ```scala
+  given int2long: Conversion[Int, Long] with
+    def apply(x: Int): Long = x.toLong
+
+  given Conversion[Int, Long] with
+    def apply(x: Int): Long = x.toLong
+  
+  given Conversion[Int, Long] = (x: Int) => x.toLong
+  ```
+- In our example above, when we pass the argument id of type Int to the method findUserById, the implicit conversion int2long(id) is inserted.
+- An example is to compare two strings "foo" < "bar". In this case, String has no member <, so the implicit conversion Predef.augmentString("foo") < "bar" is inserted. (scala.Predef is automatically imported into all Scala programs.)
+
+### How Are Implicit Conversions Brought Into Scope?
+- first, it looks into the current lexical scope
+  - implicit conversions defined in the current scope or the outer scopes
+  - imported implicit conversions
+  - implicit conversions imported by a wildcard import (Scala 2 only)
+- then, it looks into the companion objects associated with the argument type S or the expected type T. The companion objects associated with a type X are:
+  - the companion object X itself
+  - the companion objects associated with any of X’s inherited types
+  - the companion objects associated with any type argument in X
+  - if X is an inner class, the outer objects in which it is embedded
+- For instance, consider an implicit conversion fromStringToUser defined in an object Conversions:
+  ```scala
+  object Conversions:
+    given fromStringToUser: Conversion[String, User] = (name: String) => User(name)
+  ```
+- The following imports would equivalently bring the conversion into scope:
+  ```scala
+  import Conversions.fromStringToUser
+  // or
+  import Conversions._
+  import Conversions.fromStringToUser
+  // or
+  import Conversions.given
+  // or
+  import Conversions.{given Conversion[String, User]}
+  ```
+- In the introductory example, the conversion from Int to Long does not require an import because it is defined in the object Int, which is the companion object of the type Int.
