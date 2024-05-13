@@ -1,0 +1,16 @@
+{
+  "name": "scala-cli",
+  "argv": [
+    "/Users/agusrichard/Library/Application Support/Coursier/bin/.scala-cli.aux",
+    "bsp",
+    "--json-options",
+    "/Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/.scala-build/ide-options-v2.json",
+    "/Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial"
+  ],
+  "version": "1.1.0",
+  "bspVersion": "2.1.0-M7",
+  "languages": [
+    "scala",
+    "java"
+  ]
+}
