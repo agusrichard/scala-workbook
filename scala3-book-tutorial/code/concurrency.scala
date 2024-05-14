@@ -14,6 +14,7 @@ def sleep(millis: Long) = Thread.sleep(millis)
   val f1 = Future { sleep(800); 1 }   // eventually returns 1
   val f2 = Future { sleep(200); 2 }   // eventually returns 2
   val f3 = Future { sleep(400); 3 }   // eventually returns 3
+  val f4 = Future { sleep(1000); 4 }   // eventually returns 4
 
   // (2) join the futures in a `for` expression
   val result =
@@ -21,9 +22,10 @@ def sleep(millis: Long) = Thread.sleep(millis)
       r1 <- f1
       r2 <- f2
       r3 <- f3
+      r4 <- f4
     yield
       println(s"in the 'yield': ${delta()}")
-      (r1 + r2 + r3)
+      (r1 + r2 + r3 + r4)
 
   // (3) process the result
   result.onComplete {
