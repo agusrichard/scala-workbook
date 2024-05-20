@@ -1,0 +1,7 @@
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E103] Syntax Error: /Users/agusrichard/Documents/personal/workbook/scala-workbook/scala3-book-tutorial/HelloWorld/HelloWorld.scala:1:0 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m1 |[0m!@main [33mdef[0m helloWorld = println([31m"Hello World!"[0m)[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m  |[0m^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0mIllegal start of toplevel definition[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m  |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m

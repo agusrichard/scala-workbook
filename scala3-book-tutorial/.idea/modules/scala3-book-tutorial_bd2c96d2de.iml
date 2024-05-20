@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="file:$MODULE_DIR$/../../.scala-build/?id=scala3-book-tutorial_bd2c96d2de" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="BSP" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_17">
+    <output url="file://$MODULE_DIR$/../../.scala-build/scala3-book-tutorial_bd2c96d2de/classes/main" />
+    <output-test url="file://$MODULE_DIR$/../../.scala-build/scala3-book-tutorial_bd2c96d2de/classes/test" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../code/ControlStructuresDetail.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/MyCoolApp.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/concurrency.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/controlStructures.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/fpDomainModeling.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/hello.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/helloInteractive.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/matchStatement.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/methods.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/oopDomainModeling.scala" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../code/stringInterpolation.scala" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../.bloop" />
+      <excludeFolder url="file://$MODULE_DIR$/../../.bsp" />
+    </content>
+    <orderEntry type="jdk" jdkName="BSP_Home" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="BSP: scala-library-2.13.10" level="project" />
+    <orderEntry type="library" scope="TEST" name="BSP: scala-library-2.13.10" level="project" />
+    <orderEntry type="module-library">
+      <library name="BSP: scala-sdk-3.3.1" type="Scala">
+        <properties>
+          <language-level>Scala_3_3</language-level>
+          <compiler-classpath>
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-compiler_3/3.3.1/scala3-compiler_3-3.3.1.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-interfaces/3.3.1/scala3-interfaces-3.3.1.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.3.1/scala3-library_3-3.3.1.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/tasty-core_3/3.3.1/tasty-core_3-3.3.1.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-asm/9.5.0-scala-1/scala-asm-9.5.0-scala-1.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.3.5/compiler-interface-1.3.5.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/jline/jline-reader/3.19.0/jline-reader-3.19.0.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.10/scala-library-2.13.10.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.7.0/protobuf-java-3.7.0.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/org/scala-sbt/util-interface/1.3.0/util-interface-1.3.0.jar" />
+            <root url="file://$USER_HOME$/Library/Caches/Coursier/v1/https/repo1.maven.org/maven2/net/java/dev/jna/jna/5.3.1/jna-5.3.1.jar" />
+          </compiler-classpath>
+          <compiler-bridge-binary-jar>file://$USER_HOME$/.ivy2/cache/org.scala-lang/scala3-sbt-bridge/jars/scala3-sbt-bridge-3.3.1.jar</compiler-bridge-binary-jar>
+        </properties>
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="BSP: scala3-book-tutorial_bd2c96d2de dependencies">
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library name="BSP: scala3-book-tutorial_bd2c96d2de test dependencies">
+        <CLASSES />
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="BSP: scala3-library_3-3.3.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="BSP: scala3-library_3-3.3.1" level="project" />
+    <orderEntry type="library" name="BSP: semanticdb-javac-0.7.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="BSP: semanticdb-javac-0.7.4" level="project" />
+  </component>
+</module>
