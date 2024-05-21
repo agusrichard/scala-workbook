@@ -2,6 +2,7 @@
 
 **Sources:**
 - https://docs.scala-lang.org/scala3/book/tools-sbt.html
+- https://docs.scala-lang.org/scala3/book/tools-worksheets.html
 
 ## Building Scala projects with sbt
 - Creating a “Hello, world” project
@@ -248,3 +249,8 @@
 ### Support for many types of tests
 - This example demonstrates a style of testing that’s similar to xUnit Test-Driven Development (TDD) style testing, with a few benefits of the Behavior-Driven Development (BDD) style.
 - As mentioned, ScalaTest is flexible and you can also write tests using other styles, such as a style similar to Ruby’s RSpec. You can also use mock objects, property-based testing, and use ScalaTest to test Scala.js code.
+
+## Worksheets
+- A worksheet is a Scala file that is evaluated on save, and the result of each expression is shown in a column to the right of your program. Worksheets are like a REPL session on steroids, and enjoy 1st class editor support: completion, hyperlinking, interactive errors-as-you-type, etc. Worksheets use the extension .worksheet.sc.
+- Note that the worksheet will use the Scala version defined by your project (set by the key scalaVersion, in your file build.sbt, typically).
+- Also note that worksheets don’t have a program entry point. Instead, top-level statements and expressions are evaluated from top to bottom.
