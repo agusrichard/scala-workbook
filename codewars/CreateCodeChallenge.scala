@@ -49,7 +49,7 @@ def createDirectory(filename: String): Unit =
   else
     println("Directory already exists")
 
-  val filePath = completePath.resolve("code.scala")
+  val filePath = completePath.resolve("code.sc")
 
   if !Files.exists(filePath) then
     Files.createFile(filePath)
