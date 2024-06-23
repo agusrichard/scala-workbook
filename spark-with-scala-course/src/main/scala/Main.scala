@@ -6,6 +6,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     println("Keep moving forward!")
     println("Spark spark spark!")
-    println("Something is here")
+    println("Something is here!")
   }
 }
