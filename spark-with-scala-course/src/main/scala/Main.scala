@@ -7,5 +7,6 @@ object Main {
     println("Keep moving forward!")
     println("Spark spark spark!")
     println("Something is here!")
+    println("I got exam, so please wait")
   }
 }
