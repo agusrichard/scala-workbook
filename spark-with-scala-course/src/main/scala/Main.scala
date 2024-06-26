@@ -9,5 +9,6 @@ object Main {
     println("Something is here!")
     println("I got exam, so please wait")
     println("Still on exam")
+    println("Gotta wait")
   }
 }
