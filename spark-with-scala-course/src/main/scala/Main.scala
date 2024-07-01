@@ -12,5 +12,6 @@ object Main {
     println("Gotta wait")
     println("Tomorrow is Friday")
     println("Good weekend")
+    println("Last day before exam")
   }
 }
