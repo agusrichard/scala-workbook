@@ -14,5 +14,6 @@ object Main {
     println("Good weekend")
     println("Last day before exam")
     println("Exams are done")
+    println("I should've started this")
   }
 }
