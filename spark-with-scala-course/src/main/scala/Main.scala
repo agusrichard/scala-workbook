@@ -6,5 +6,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     println("I'm in vacation")
     println("Still on vacation")
+    println("Tired")
   }
 }
